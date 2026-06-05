@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高等固体物理·第四章 维度 — 完整复习材料</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC",
+                 "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 15px; line-height: 1.7; color: #1a1a2e;
+    background: #f4f6f9; max-width: 1000px; margin: 0 auto; padding: 20px;
+  }
+
+  /* ── Header ── */
+  .review-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff; border-radius: 12px; padding: 32px 40px; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .review-header h1 { font-size: 24px; margin-bottom: 6px; letter-spacing: 1px; }
+  .review-header .subtitle { font-size: 14px; opacity: 0.8; }
+  .review-header .badge {
+    display: inline-block; background: rgba(255,255,255,0.15);
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; margin-top: 8px;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: #fff; border-radius: 10px; padding: 20px 24px;
+    margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .toc h2 { font-size: 16px; margin-bottom: 12px; color: #0f3460; }
+  .toc ul { list-style: none; padding: 0; columns: 2; column-gap: 24px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a {
+    color: #0f3460; text-decoration: none; font-size: 14px;
+    padding: 2px 6px; border-radius: 4px; display: inline-block;
+  }
+  .toc a:hover { background: #e8edf5; }
+
+  /* ── Module Sections ── */
+  .module {
+    background: #fff; border-radius: 10px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .module-header {
+    padding: 14px 24px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.15s;
+  }
+  .module-header:hover { background: #f8f9fc; }
+  .module-header .icon { font-size: 18px; margin-right: 10px; }
+  .module-header .title { font-weight: 600; font-size: 16px; color: #1a1a2e; }
+  .module-header .arrow { transition: transform 0.2s; font-size: 14px; color: #999; }
+  .module.collapsed .module-header .arrow { transform: rotate(-90deg); }
+  .module-content { padding: 0 24px 20px; }
+
+  /* ── P0 / P1 / P2 Cards ── */
+  .p0-block {
+    border-left: 4px solid #dc3545; background: #fff5f5;
+    padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;
+  }
+  .p1-block {
+    border-left: 4px solid #fd7e14; background: #fffbf0;
+    padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;
+  }
+  .p2-block {
+    border-left: 4px solid #6c757d; background: #f8f9fa;
+    padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0;
+  }
+  .p0-tag {
+    display: inline-block; background: #dc3545; color: #fff;
+    font-size: 11px; font-weight: 700; padding: 1px 8px;
+    border-radius: 10px; margin-right: 6px; vertical-align: middle;
+  }
+  .p1-tag {
+    display: inline-block; background: #fd7e14; color: #fff;
+    font-size: 11px; font-weight: 700; padding: 1px 8px;
+    border-radius: 10px; margin-right: 6px; vertical-align: middle;
+  }
+  .p2-tag {
+    display: inline-block; background: #6c757d; color: #fff;
+    font-size: 11px; font-weight: 700; padding: 1px 8px;
+    border-radius: 10px; margin-right: 6px; vertical-align: middle;
+  }
+
+  /* ── Formula blocks ── */
+  .formula {
+    font-family: "Times New Roman", "STIX", serif; font-size: 16px;
+    background: #f0f4ff; padding: 8px 14px; border-radius: 6px;
+    margin: 8px 0; overflow-x: auto; border: 1px solid #dde6f5;
+  }
+  .inline-formula {
+    font-family: "Times New Roman", "STIX", serif;
+    padding: 0 2px; white-space: nowrap;
+  }
+
+  /* ── Tables ── */
+  .module-content table {
+    width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px;
+  }
+  .module-content th {
+    background: #eef2f7; padding: 8px 12px; text-align: left;
+    font-weight: 600; border: 1px solid #dde2e8;
+  }
+  .module-content td {
+    padding: 8px 12px; border: 1px solid #dde2e8;
+  }
+  .module-content tr:nth-child(even) { background: #fafbfc; }
+
+  /* ── Code blocks (TSV / shells) ── */
+  .module-content pre {
+    background: #1e1e2e; color: #cdd6f4; padding: 14px 18px;
+    border-radius: 8px; overflow-x: auto; font-size: 13px;
+    line-height: 1.5; margin: 10px 0;
+  }
+  .module-content code {
+    font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+    font-size: 13px;
+  }
+  .module-content :not(pre) > code {
+    background: #eef2f7; padding: 1px 5px; border-radius: 3px;
+    color: #cf222e;
+  }
+
+  /* ── Blockquote (speaker notes, source citations) ── */
+  .module-content blockquote {
+    border-left: 3px solid #8b949e; padding: 6px 14px; margin: 8px 0;
+    color: #57606a; background: #f6f8fa; border-radius: 0 4px 4px 0;
+  }
+
+  /* ── Horizontal rules ── */
+  .module-content hr {
+    border: none; border-top: 1px solid #e4e7ed; margin: 20px 0;
+  }
+
+  /* ── Print styles ── */
+  @media print {
+    body { background: #fff; padding: 0; font-size: 12px; }
+    .toc { break-after: page; }
+    .module { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .module-header { break-after: avoid; }
+    .p0-block, .p1-block { break-inside: avoid; }
+    .no-print { display: none !important; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    .review-header { padding: 20px; }
+    .toc ul { columns: 1; }
+    .module-content { padding: 0 14px 14px; }
+    .module-header { padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="review-header">
+  <h1>高等固体物理·第四章 维度 — 完整复习材料</h1>
+  <div class="subtitle">来源：assp4.pdf | 总页数：204 Slides | 四大章节</div>
+  <div class="badge">P0 考点: 16 | P1 概念: 8 | 公式: 325</div>
+</div>
+
+<nav class="toc no-print">
+  <h2>📑 目录</h2>
+  <ul>
+    <li><a href="#module-1">🎯 考试情报卡</a></li>
+    <li><a href="#module-2">🗺 章节导航图</a></li>
+    <li><a href="#module-3">📝 核心知识点精编</a></li>
+    <li><a href="#module-4">📐 公式/定理速查表</a></li>
+    <li><a href="#module-5">🔄 对比辨析表</a></li>
+    <li><a href="#module-6">📄 一页纸终极总结</a></li>
+    <li><a href="#module-7">🃏 Anki 卡片（TSV 格式）</a></li>
+    <li><a href="#module-8">✍️ 练习题</a></li>
+  </ul>
+</nav>
+
+<main>
+<h1>高等固体物理·第四章 维度 — 完整复习材料</h1>
+<blockquote>
+<p>来源：assp4.pdf | 总页数：204 Slides | 四大章节</p>
+</blockquote>
+<hr />
+
+<section class="module" id="module-1">
+  <div class="module-header">
+    <span class="icon">🎯</span><span class="title">模块 1：考试情报卡</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>🎯 考试情报卡 — 第四章 维度</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>课程</td>
+<td>高等固体物理（Advanced Solid State Physics）</td>
+</tr>
+<tr>
+<td>章节</td>
+<td>第四章：维度（Dimensionality）</td>
+</tr>
+<tr>
+<td>子章节数</td>
+<td>4 节（4.1-4.4）</td>
+</tr>
+<tr>
+<td>总页数</td>
+<td>204 Slides</td>
+</tr>
+<tr>
+<td>PPT 无明显"考点/重点/必考"标记</td>
+<td>需从内容密度和深度自行判定</td>
+</tr>
+</tbody>
+</table>
+<h3>章节权重分布（估算）</h3>
+<table>
+<thead>
+<tr>
+<th>章节</th>
+<th>起止Slide</th>
+<th>页数</th>
+<th>P0核心知识点数</th>
+<th>预估权重</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>4.1</strong> 半导体低维电子系统</td>
+<td>Slide 1-40</td>
+<td>40</td>
+<td>5</td>
+<td>~25%</td>
+</tr>
+<tr>
+<td><strong>4.2</strong> 几何位相与拓扑态</td>
+<td>Slide 41-180</td>
+<td>140</td>
+<td>9</td>
+<td>~50%</td>
+</tr>
+<tr>
+<td><strong>4.3</strong> 二维体系中的相变</td>
+<td>Slide 181-198</td>
+<td>18</td>
+<td>3</td>
+<td>~15%</td>
+</tr>
+<tr>
+<td><strong>4.4</strong> 准一维Peierls/CDW</td>
+<td>Slide 199-204</td>
+<td>6</td>
+<td>3</td>
+<td>~10%</td>
+</tr>
+</tbody>
+</table>
+<h3>考试趋势分析</h3>
+<table>
+<thead>
+<tr>
+<th>题型</th>
+<th>适用章节</th>
+<th>频次预测</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择题（概念辨析）</td>
+<td>4.1~4.4 均有</td>
+<td>高频</td>
+</tr>
+<tr>
+<td>简答题（定义/机制）</td>
+<td>4.1 IQHE/FQHE, 4.2 Berry相/拓扑绝缘体, 4.3 KT相变, 4.4 Peierls/CDW</td>
+<td>高频</td>
+</tr>
+<tr>
+<td>计算/推导题</td>
+<td>4.1 Landau能级, 4.2 Chern数/缠绕数, 4.4 Peierls能隙</td>
+<td>中频</td>
+</tr>
+<tr>
+<td>论述/比较题</td>
+<td>IQHE vs FQHE, 拓扑绝缘体 vs 普通绝缘体, CDW vs SDW</td>
+<td>中频</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ 核心提示</h3>
+<ul>
+<li><strong>4.2 是全章绝对重点</strong>，占一半以上篇幅，含Berry相、Chern数、拓扑绝缘体等核心概念</li>
+<li><strong>4.1 的 QHE（IQHE + FQHE）</strong> 是经典考试题源，需掌握物理图像+Landau能级+平台机制</li>
+<li><strong>4.3 KT相变</strong> 概念新颖（拓扑缺陷驱动的相变），是近年诺奖热点（2016）</li>
+<li><strong>4.4 Peierls/CDW</strong> 概念较经典但结构清晰，易出简答题</li>
+<li>P0占比：约 40% 内容；P1占比：约 35%；P2占比：约 25%</li>
+</ul>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-2">
+  <div class="module-header">
+    <span class="icon">🗺</span><span class="title">模块 2：章节导航图</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>🗺 章节结构树</h2>
+<pre><code>第四章 维度 (Slide 1-204)
+│
+├── 4.1 半导体低维电子系统 (Slide 1-40)  [P0×5, P1×3]
+│   ├── 1. 维度与量子化 (Slide 2)                 P0
+│   │   ├── 方势阱限制: ε_n = (nπℏ)²/(2mW²)
+│   │   └── 抛物线势限制: ε_n = (n-½)ℏω₀
+│   ├── 2. Si反型层及GaAs-AlGaAs异质结 (Slide 3-5) P1
+│   │   ├── Si(100): m* = 0.2m_e, ε₂-ε₁≈20meV
+│   │   └── GaAs-AlGaAs: m* = 0.067m_e, 高迁移率
+│   ├── 3. Split-gate与1D电子气 (Slide 6)          P2
+│   ├── 4. 量子霍尔效应基础 (Slide 7-12)           P1
+│   │   ├── 霍尔效应 + 德鲁特模型 → 张量电导率
+│   │   ├── ω_c = eB/mc, σ_xx/σ_xy 公式
+│   │   ├── Landau能级量子力学解 (Slide 10-11)
+│   │   └── Hall电流经典结果 j_y = -neEc/B (Slide 13)
+│   ├── 5. 整数量子霍尔效应 IQHE (Slide 13-23)    P0
+│   │   ├── Klitzing发现 (1980), Nobel 1985
+│   │   ├── 霍尔电阻平台: R_H = h/(ie²)
+│   │   ├── 扩展态/局域态机制 (Slide 19)
+│   │   ├── Laughlin-Halperin 规范变换证明
+│   │   └── 应用: 电阻标准 + 精细结构常数
+│   └── 6. 分数量子霍尔效应 FQHE (Slide 24-40)    P0
+│       ├── 崔琦/Stomer发现 (1982), Nobel 1998
+│       ├── Laughlin波函数 ν = 1/m (Slide 29)
+│       ├── 准粒子分数电荷 (Slide 30)
+│       ├── 复合费米子模型 (Slide 32)
+│       └── 石墨烯室温QHE (Slide 40)
+│
+├── 4.2 几何位相与拓扑态 (Slide 41-180)  [P0×9, P1×8]
+│   ├── 拓扑学基础 (Slide 43)                      P2
+│   │   └── Genus, Gauss-Bonnet Theorem
+│   ├── SSH模型 (Slide 45-49)                      P0
+│   │   ├── 1D dimerized chain, stagger hopping
+│   │   ├── Winding number (缠绕数)
+│   │   └── Bulk-boundary correspondence: 缠绕数=边缘态数
+│   ├── Berry相位 (Slide 54-72)                    P0
+│   │   ├── Berry connection A = i⟨u|∇_R|u⟩
+│   │   ├── Berry curvature Ω = ∇×A
+│   │   ├── Berry phase γ = ∮A·dR = ∫Ω·dS (Stokes)
+│   │   ├── 规范不变性 + 几何/拓扑性质 (Slide 72)
+│   │   └── 经典直观例子: 球面平行移动 (Slide 71)
+│   ├── Chern数 (Slide 73-76)                      P0
+│   │   ├── C = (1/2π)∫_BZ F d²k
+│   │   └── σ_xy = e²/h · C (TKNN公式)
+│   ├── 时间反演对称与Z₂拓扑 (Slide 83-85)         P0
+│   │   ├── TRIM, Kramers简并
+│   │   ├── Z₂ = (0,1) for 2D TI
+│   │   ├── 边缘态自旋-动量锁定, 无背散射
+│   │   └── Z₂可从奇偶性或自旋Chern数计算
+│   ├── Kane-Mele模型: Graphene (Slide 89-96)      P0
+│   │   ├── Dirac点打开拓扑能隙
+│   │   ├── 内禀SOC: 2λ_I ~ 20-50 μeV (很小)
+│   │   ├── 螺旋边缘态 (helical edge states)
+│   │   └── 扩展: Silicene, Germanene (Slide 94)
+│   ├── BHZ模型: HgTe量子阱 (Slide 105)            P1
+│   │   ├── Band inversion: m/B &lt; 0 for d &gt; d_c
+│   │   └── 能带反转机制
+│   ├── 量子谷霍尔效应 (Slide 117-123)              P1
+│   │   ├── Valley Chern number C_v = C_K - C_K'
+│   │   ├── 谷极化: 圆偏振光激发
+│   │   └── MoS₂单层谷极化 (Slide 120)
+│   ├── 量子反常霍尔效应 QAHE (Slide 125-140)      P0
+│   │   ├── 无需外磁场, TRS破缺
+│   │   ├── Bi₂Se₃+磁性掺杂 (Slide 130, 139)
+│   │   ├── C=1, C=2 模型
+│   │   └── 实验验证 (Slide 139-140)
+│   ├── 3D拓扑绝缘体 (Slide 141-150)               P0
+│   │   ├── Bi₂Se₃: 拓扑表面态 (Slide 142)
+│   │   ├── ARPES/STM探测 (Slide 143-145)
+│   │   ├── 弱TI与强TI (Slide 146-148)
+│   │   └── 半整数量子霍尔效应 (Slide 150)
+│   ├── 拓扑半金属 (Slide 152-167)                  P1
+│   │   ├── Dirac/Weyl/Nodal-line semimetal
+│   │   ├── Weyl点 + Fermi弧 (Slide 160-163)
+│   │   └── Type-I vs Type-II
+│   ├── 高阶拓扑绝缘体 (Slide 168-172)              P2
+│   ├── 新型费米子 (Slide 173-178)                  P2
+│   │   ├── Hourglass fermion
+│   │   ├── Three-component, Sixfold, Eightfold
+│   │   └── Spin-1, Charge-2 fermion
+│   └── 拓扑超导/马约拉纳费米子 (Slide 179)         P2
+│
+├── 4.3 二维体系中的相变 (Slide 181-198)  [P0×3, P1×1]
+│   ├── 维度与相变: Mermin-Wagner定理 (Slide 181)   P1
+│   │   ├── 1D: T&gt;0时总是无序, 无长程序
+│   │   ├── 2D: 序参量自由度N=1有相变(Ising)
+│   │   │            N=2有KT相变(XY模型)
+│   │   │            N=3无相变(Heisenberg)
+│   │   └── 关联函数各维度行为对比
+│   ├── 拓扑缺陷 (Slide 183-191)                   P0
+│   │   ├── 涡旋(Vortex): 拓扑荷 n = ±1, ±2, ...
+│   │   ├── Φ_L = ΣΔφ_i = n·2π (拓扑荷)
+│   │   ├── 将速度场v = ∇φ分解为无旋场v_s+无源场v_v
+│   │   └── 涡旋间相互作用类似二维点电荷
+│   ├── Kosterlitz-Thouless相变 (Slide 193-198)     P0
+│   │   ├── XY模型哈密顿量: H = -J Σ cos(φ_i-φ_j)
+│   │   ├── 简谐近似: H = J/2 Σ (φ_i-φ_j)²
+│   │   ├── 单涡旋能量: E_v = Jπ ln(L/a)
+│   │   ├── 熵: S = k_B ln(L²/a²)
+│   │   ├── 自由能: F_v = Jπ ln(L/a) - 2k_BT ln(L/a)
+│   │   ├── 临界温度: T_c = πJ/(2k_B)
+│   │   ├── T&lt;T_c: 正负涡旋束缚对 (准长程序)
+│   │   ├── T&gt;T_c: 涡旋对解束缚 → 拓扑长程序破坏
+│   │   └── 无穷级相变 (Slide 195)
+│   └── 2D氦超流 (Slide 196-197)                   P2
+│       └── KT transition explains 2D superfluid
+│
+└── 4.4 准一维体系的Peierls不稳定性和电荷密度波 (Slide 199-204)  [P0×3, P1×1]
+    ├── 一维体系概述 (Slide 199)                    P1
+    │   ├── 导电聚合物, KCP, TMTSF, 有机超导体等
+    │   └── 自由电子能带: E(k) = ℏ²k²/(2m), k_F = n/(4a)
+    ├── Peierls不稳定性 (Slide 200-201)             P0
+    │   ├── 半满能带一维晶格 → 二聚化 → 晶格周期2a
+    │   ├── 布里渊区边界与费米面重合 → 能隙打开
+    │   ├── 低温: 半导体/绝缘体 (不导电)
+    │   └── 高温: 能隙消失 → 导体 (Peierls相变)
+    ├── 电荷密度波 CDW (Slide 202)                  P0
+    │   ├── ρ(x) = n₀ + n_c cos(2πx/λ + φ)
+    │   ├── k'_B = 1/(2a') = k_F, λ = 2a' = 2/k_F
+    │   ├── 可公度相变 (a'/a有理数) 与非公度相变 (无理数)
+    │   └── CDW基本特征: 空间调制电荷密度 + 费米能能隙 + 半导体电导
+    └── 自旋密度波 SDW (Slide 203)                  P0
+        ├── ρ↑(x) = n₀/2 + (n_c/2) cos(2πx/λ + φ↑)
+        ├── ρ↓(x) = n₀/2 + (n_c/2) cos(2πx/λ + φ↓)
+        ├── 总CDW: ρ(x) = ρ↑+ρ↓; SDW: S(x) = ρ↑-ρ↓
+        ├── φ↑=φ↓ → 只有CDW, 无SDW
+        └── φ↑=φ↓+π → 只有SDW, 无CDW
+</code></pre>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-3">
+  <div class="module-header">
+    <span class="icon">📝</span><span class="title">模块 3：核心知识点精编</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>4.1 半导体低维电子系统</h2>
+<h3><span class="p0-tag">P0</span> [维度限制与量子化]</h3>
+<p><strong>来源：</strong> Slide 2</p>
+<p><strong>📖 定义/表述：</strong>
+三维自由电子气体沿 z 方向尺寸限制，导致能级量子化：
+- 方势阱限制：<span class="inline-formula">(\varepsilon_n = \frac{n^2\pi^2\hbar^2}{2mW^2})</span>，其中 <span class="inline-formula">(W = \frac{n\lambda}{2})</span>，<span class="inline-formula">(\lambda)</span> 为电子波长
+- 抛物线势限制 <span class="inline-formula">(V(z) = \frac{1}{2}m\omega_0^2 z^2)</span>：<span class="inline-formula">(\varepsilon_n = \left(n - \frac{1}{2}\right)\hbar\omega_0)</span></p>
+<p><strong>💡 通俗理解：</strong>
+在某一维度上把电子"关"起来（尺寸缩小到与电子波长可比），该维度的运动就量子化了——能量不再连续，变成一系列分立的子带。只填最低子带(n=1)就是二维体系，填充多个子带就是准二维体系。</p>
+<p><strong>📌 考试形态：</strong> 选择题/简答题
+- 问：方势阱限制下子带能量表达式
+- 问：抛物线势与方势阱限制的区别
+- 问：二维体系与准二维体系的区分标准</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 方势阱中 <span class="inline-formula">(\varepsilon_n \propto n^2)</span>，抛物线势中 <span class="inline-formula">(\varepsilon_n \propto n)</span>（线性）
+- 勿将二维体系误认为"只有两个维度"，而是"在一维被量子化限制"</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [Si反型层与GaAs-AlGaAs异质结]</h3>
+<p><strong>来源：</strong> Slide 3-5</p>
+<p><strong>📖 定义/表述：</strong>
+实现二维电子气（2DEG）的两种经典体系：</p>
+<table>
+<thead>
+<tr>
+<th>性质</th>
+<th>Si(100) 反型层</th>
+<th>GaAs-AlGaAs 异质结</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>电子有效质量</td>
+<td><span class="inline-formula">(0.2m_e)</span></td>
+<td><span class="inline-formula">(0.067m_e)</span></td>
+</tr>
+<tr>
+<td>子带间距 <span class="inline-formula">(\varepsilon_2-\varepsilon_1)</span></td>
+<td><span class="inline-formula">(\approx 20)</span> meV</td>
+<td><span class="inline-formula">(\sim 0.3)</span> eV (导带底差)</td>
+</tr>
+<tr>
+<td>面电子密度 <span class="inline-formula">(n_s)</span></td>
+<td><span class="inline-formula">(1\sim10\times10^{11}\text{cm}^{-2})</span></td>
+<td><span class="inline-formula">(\approx 4\times10^{11}\text{cm}^{-2})</span></td>
+</tr>
+<tr>
+<td>迁移率 <span class="inline-formula">(\mu)</span></td>
+<td><span class="inline-formula">(10^4\ \text{cm}^2/\text{V}\cdot\text{s})</span></td>
+<td><span class="inline-formula">(10^4\sim10^6\ \text{cm}^2/\text{V}\cdot\text{s})</span></td>
+</tr>
+<tr>
+<td>弹性散射平均自由程 <span class="inline-formula">(l)</span></td>
+<td><span class="inline-formula">(40\sim120)</span> nm</td>
+<td><span class="inline-formula">(10^2\sim10^4)</span> nm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>💡 通俗理解：</strong>
+两种制造"电子薄饼"的方法。Si反型层像在硅表面"引诱"出一层电子；GaAs异质结像用两种半导体"三明治"把电子夹在界面上。后者迁移率更高，适合研究精细的量子效应。</p>
+<p><strong>📌 考试形态：</strong> 选择题
+- 问：哪种体系迁移率更高？为什么GaAs异质结更适合FQHE研究？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- Si反型层由 MOSFET 栅压 <span class="inline-formula">(V_g)</span> 控制电子密度
+- GaAs 中 <span class="inline-formula">(x \approx 0.3)</span>（Al 组分），导带底能量差 <span class="inline-formula">(\sim 0.3)</span> eV</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [霍尔效应与电导率张量基础]</h3>
+<p><strong>来源：</strong> Slide 7-9</p>
+<p><strong>📖 定义/表述：</strong>
+有磁场时，电导率和电阻率变为张量。德鲁特模型推导：</p>
+<p><span class="inline-formula">(\boldsymbol{j} = -ne\boldsymbol{v}_d)</span>，<span class="inline-formula">(\boldsymbol{v}_d = -\frac{e\tau}{m}\left(\boldsymbol{E} + \frac{\boldsymbol{v}_d \times \boldsymbol{B}}{c}\right))</span></p>
+<p><span class="inline-formula">(\sigma_{xx} = \sigma_{yy} = \frac{\sigma_0}{1+(\omega_c\tau)^2})</span>，<span class="inline-formula">(\sigma_{xy} = -\sigma_{yx} = -\sigma_0\frac{\omega_c\tau}{1+(\omega_c\tau)^2})</span></p>
+<p>其中 <span class="inline-formula">(\sigma_0 = ne^2\tau/m)</span>，回旋频率 <span class="inline-formula">(\omega_c = eB/mc)</span></p>
+<p>逆关系：<span class="inline-formula">(\rho_{xx} = \frac{\sigma_{xx}}{\sigma_{xx}^2+\sigma_{xy}^2})</span>，<span class="inline-formula">(\rho_{xy} = -\frac{\sigma_{xy}}{\sigma_{xx}^2+\sigma_{xy}^2})</span></p>
+<p><strong>📌 考试形态：</strong> 推导题/选择题
+- 给定 <span class="inline-formula">(\sigma_{xx}=0)</span> 时，<span class="inline-formula">(\sigma_H = \sigma_{xy} = -nec/B)</span>
+- 问：霍尔电阻与磁场强度的关系</p>
+<p><strong>⚠️ 易错警示：</strong>
+- <span class="inline-formula">(\sigma_{xx}=0)</span> 时 <span class="inline-formula">(\rho_{xx}=0)</span> 也成立（重要：IQHE平台处纵向电阻为零）
+- <span class="inline-formula">(\sigma_{xy})</span> 与 <span class="inline-formula">(\rho_{xy})</span> 的关系要注意符号</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [Landau能级的量子力学解]</h3>
+<p><strong>来源：</strong> Slide 10-11</p>
+<p><strong>📖 定义/表述：</strong>
+量子力学下（E沿x方向），哈密顿量：
+<span class="inline-formula">(H = \frac{1}{2m}\left(\boldsymbol{P} + \frac{e\boldsymbol{A}}{c}\right)^2 + eEx)</span></p>
+<p>选择矢量势 <span class="inline-formula">(\boldsymbol{A} = (0, Bx, 0))</span>，波函数 <span class="inline-formula">(\Psi(x,y) = e^{-ik_y y}\phi(x))</span></p>
+<p>解出Landau能级：
+<span class="inline-formula">(\varepsilon_i = \left(i+\frac{1}{2}\right)\hbar\omega_c + eE l_c^2 k_y - \frac{(eE)^2}{2m\omega_c^2})</span></p>
+<p>其中 <span class="inline-formula">(l_c = \sqrt{\frac{\hbar c}{eB}})</span> 为经典回旋半径。</p>
+<p><strong>📌 考试形态：</strong> 推导题
+- 问：Landau能级的简并度？答：<span class="inline-formula">(eB/(hc))</span> 每单位面积
+- 问：2D与3D中Landau能谱的区别？答：2D完全分立，3D沿B方向连续</p>
+<p><strong>⚠️ 易错警示：</strong>
+- Landau能级能量与 <span class="inline-formula">(k_y)</span> 有关（有电场时），导致能级倾斜
+- 经典回旋半径 <span class="inline-formula">(l_c = \sqrt{\hbar c/eB})</span>，随B增大而减小</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [整数量子霍尔效应 IQHE]</h3>
+<p><strong>来源：</strong> Slide 13-23</p>
+<p><strong>📖 定义/表述：</strong>
+1980年 von Klitzing, Dorda, Pepper 在 Si-MOSFET 中发现。核心特征：
+1. 霍尔电阻出现平台：<span class="inline-formula">(R_H = \frac{h}{ie^2})</span>，<span class="inline-formula">(i)</span> 为整数，精度 <span class="inline-formula">(\sim 5)</span> ppm
+2. 平台处纵向电阻 <span class="inline-formula">(\rho_{xx} = 0)</span>
+3. 平台对应 Fermi 能级位于 Landau 能级间隙中</p>
+<p><strong>机制</strong>（Laughlin 1981, Halperin 1982）：
+- 杂质展宽 Landau 能级 → 扩展态（导电）+ 局域态（不导电）
+- Fermi 能级在能隙中时，扩展态占据数不变 → 霍尔电流不变
+- 规范变换证明：<span class="inline-formula">(G_H = \frac{iec}{\hbar}\frac{\partial n}{\partial B})</span> → <span class="inline-formula">(R_H = \frac{h}{e^2 i})</span></p>
+<p><strong>应用：</strong>
+- 电阻标准：<span class="inline-formula">(h/e^2 = 25812.806\ \Omega)</span>（精度 <span class="inline-formula">(\sim 2\times10^{-8})</span>）
+- 精细结构常数测量：<span class="inline-formula">(\alpha = e^2/(2hc\epsilon_0))</span></p>
+<p><strong>💡 通俗理解：</strong>
+强磁场下电子的动能"冻结"成离散的Landau能级。每填满一个能级，霍尔电阻就锁定在 <span class="inline-formula">(h/(ie^2))</span>，纵向电阻降为零——电子像在无摩擦的高速公路上沿着样品边缘奔驰。</p>
+<p><strong>📌 考试形态：</strong> 简答题/选择题
+- 问：IQHE 的三大特征
+- 问：为什么 Hall 电阻会有平台？
+- 问：电阻标准的数值与精度</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 平台处 <span class="inline-formula">(\rho_{xx}=0)</span> 但 <span class="inline-formula">(\sigma_{xx}=0)</span> 也成立（不要搞混电阻和电导）
+- IQHE 是单粒子效应（单电子在强磁场中的量子化），不需电子-电子相互作用
+- Landau能级简并度 <span class="inline-formula">(g = eB/(hc))</span>，占据 <span class="inline-formula">(i)</span> 个能级时 <span class="inline-formula">(n = ieB/(hc))</span></p>
+<hr />
+<h3><span class="p0-tag">P0</span> [分数量子霍尔效应 FQHE]</h3>
+<p><strong>来源：</strong> Slide 24-32</p>
+<p><strong>📖 定义/表述：</strong>
+1982年崔琦 (D.C. Tsui)、Stomer 在极纯 GaAs/AlGaAs 异质结中发现分数占据数的霍尔平台。1998年诺贝尔奖。</p>
+<p><strong>Laughlin 波函数</strong>（1983）：
+<span class="inline-formula">(\Psi({z}) = \prod_{i&lt;j} (z_i - z_j)^m \exp\left(-\sum_k |z_k|^2/4l_c^2\right))</span></p>
+<p>占据数：<span class="inline-formula">(\nu = 1/m)</span>（<span class="inline-formula">(m)</span> 为奇数）</p>
+<p><strong>核心物理：</strong>
+- FQHE <strong>不能</strong>在单粒子图像下解释，必须引入电子-电子相互作用
+- Laughlin态的能量低于同密度下的 CDW 态
+- 激发态有能隙，准粒子带分数电荷（<span class="inline-formula">(e/3)</span>, <span class="inline-formula">(e/5)</span>）
+- Laughlin态是不可压缩的量子液体状态</p>
+<p><strong>复合费米子模型（CF）：</strong>
+- 一个复合费米子 = 一个电子 + 偶数个磁通线
+- FQHE = CF 在有效磁场下的 IQHE
+- CF 具有整数电荷
+- 可解释所有观察到的分数态及其相对强度</p>
+<p><strong>级联模型</strong>（Haldane, Halperin）：
+<span class="inline-formula">(\nu = \frac{1}{mp + \alpha})</span>，<span class="inline-formula">(\alpha = \pm 1)</span>（<span class="inline-formula">(\alpha = +1)</span> 对应粒子型元激发，<span class="inline-formula">(\alpha = -1)</span> 对应空穴型）</p>
+<p><strong>💡 通俗理解：</strong>
+电子们"商量"着形成了全新的量子流体——每个电子都抱着磁通线跳舞。这种集体舞只有特定的"节拍"（占据数 1/3, 1/5...）才能跳好，产生了带分数电荷的准粒子。</p>
+<p><strong>📌 考试形态：</strong> 简答题/论述题
+- 问：IQHE 和 FQHE 的根本区别（能隙来源不同）
+- 问：Laughlin 波函数的形式及意义
+- 问：复合费米子图像</p>
+<p><strong>⚠️ 易错警示：</strong>
+- FQHE 的能隙来自 <strong>多体关联</strong>，IQHE 的能隙来自 <strong>单粒子 Landau 能级量子化</strong>
+- Laughlin 波函数中 <span class="inline-formula">(m)</span> 是奇数
+- CF 模型的核心：<span class="inline-formula">(\nu = 1/2)</span> 态对应有效磁场为零 → 金属行为</p>
+<hr />
+<h2>4.2 几何位相与拓扑态</h2>
+<h3><span class="p0-tag">P0</span> [SSH模型与缠绕数]</h3>
+<p><strong>来源：</strong> Slide 45-49</p>
+<p><strong>📖 定义/表述：</strong>
+Su-Schrieffer-Heeger (SSH) 模型：一维链，每个原胞两个原子，交错跃迁。
+- 能带色散关系可写为一般两带哈密顿量（<span class="inline-formula">(2\times2)</span> 矩阵）
+- Bulk winding number（缠绕数）：表征 <span class="inline-formula">(d_x\text{-}d_y)</span> 平面中 <span class="inline-formula">(d)</span> 矢量环绕原点的次数
+- 拓扑相变条件：体能隙关闭并重新打开；子晶格（手征）对称性被破坏</p>
+<p><strong>Bulk-boundary correspondence（体-边对应）：</strong>
+缠绕数 = 边缘态数目。完全二聚化极限：
+- 平庸态（trivial）：链两端无边缘态
+- 非平庸态（nontrivial）：链两端各有一个零能边缘态</p>
+<p><strong>💡 通俗理解：</strong>
+SSH 模型是拓扑物理的"Hello World"。通过改变原子间跳跃的强弱，可以让整条链变成"正常的"绝缘体或"拓扑的"绝缘体——后者会在两端出现"躲不掉"的电子态。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：缠绕数的定义及其物理意义
+- 问：什么是体-边对应？
+- 问：SSH 模型的拓扑相变条件</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 缠绕数在体能隙关闭时才能改变
+- 边缘态的能量为零（位于能隙中间）
+- 非平庸态的边缘态只出现在 A 或 B 子格上</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Berry 相位]</h3>
+<p><strong>来源：</strong> Slide 54-72</p>
+<p><strong>📖 定义/表述：</strong>
+Berry 相位：系统参数绝热循环一周，波函数获得的几何相位。</p>
+<p>Berry 连接（Berry connection）：<span class="inline-formula">(\boldsymbol{A}(\boldsymbol{R}) = i\langle u(\boldsymbol{R}) | \nabla_{\boldsymbol{R}} | u(\boldsymbol{R})\rangle)</span></p>
+<p>Berry 曲率（Berry curvature）：<span class="inline-formula">(\boldsymbol{\Omega}(\boldsymbol{R}) = \nabla_{\boldsymbol{R}} \times \boldsymbol{A}(\boldsymbol{R}))</span></p>
+<p>Berry 相位：<span class="inline-formula">(\gamma = \oint_C \boldsymbol{A} \cdot d\boldsymbol{R} = \int_S \boldsymbol{\Omega} \cdot d\boldsymbol{S})</span>（斯托克斯定理）</p>
+<p><strong>核心性质：</strong>
+1. <strong>规范不变性</strong> — 使得 Berry 相更加物理化（Slide 72）
+2. <strong>几何性质</strong> — 可表示为参数空间闭合回路线积分，与路径变化率无关
+3. <strong>拓扑性质</strong> — 这种"拓扑性"使其广泛应用于量子霍尔效应和拓扑绝缘体研究
+4. 与规范场论和微分几何有密切联系</p>
+<p><strong>直观例子</strong>（Slide 71）：
+球面上平行移动矢量，回到出发点后矢量旋转了一定角度。这个角度是球面固有曲率的表现，正是直观感受的 Berry 相。</p>
+<p><strong>离散版本</strong>（Slides 65-66）：Berry 相位可以用离散格式计算。</p>
+<p><strong>二能级系统示例</strong>（Slides 67-70）：
+本征态只依赖于矢量 <span class="inline-formula">(d)</span> 的方向；Berry curvature = 1/2 of the monopole field。</p>
+<p><strong>💡 通俗理解：</strong>
+一个量子态在参数空间中走一圈回来，不仅会获得能量随时间积累的"动力学相"，还会获得一个纯粹由"路径的形状"决定的几何相——这就是Berry相。好比在弯曲的地球表面平移一个箭头，走一圈回到原点会发现箭头指向变了。</p>
+<p><strong>📌 考试形态：</strong> 选择题/简答题
+- 问：Berry 相的定义公式
+- 问：Berry 相与动力学相的区别
+- 问：Berry 相的规范不变性意味着什么？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 不要混淆 Berry 相（几何/拓扑）与动力学相（依赖于能量和演化时间）
+- Stokes 定理要求 Berry 曲率 <span class="inline-formula">(\boldsymbol{\Omega})</span> 在曲面 <span class="inline-formula">(S)</span> 上处处有定义
+- Berry 相位不依赖参数变化速度（绝热条件下），只依赖闭合路径的几何</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Chern 数（陈数）]</h3>
+<p><strong>来源：</strong> Slide 73-76</p>
+<p><strong>📖 定义/表述：</strong>
+固体中参数空间是电子动量，Berry 曲率在 Brillouin 区的积分给出 Chern 数：
+<span class="inline-formula">(C = \frac{1}{2\pi} \int_{\text{BZ}} \Omega(\boldsymbol{k})\ d^2k)</span></p>
+<p>Hall 电导（TKNN 公式）：<span class="inline-formula">(\sigma_{xy} = \frac{e^2}{h} \cdot C)</span></p>
+<p><strong>物理意义：</strong>
+- Chern 数是整数拓扑不变量
+- 在绝热变形下不变，只要体能隙不关闭
+- 决定量子霍尔电导的量子化值
+- IQHE：Chern 数为整数 = 填充的 Landau 能级数</p>
+<p><strong>💡 通俗理解：</strong>
+Chern 数是 Berry 曲率在整个 Brillouin 区的"总流量"——一个只能取整数的拓扑量子数。它像一把尺子，告诉你这个体系的霍尔电导是 <span class="inline-formula">(e^2/h)</span> 的多少倍。</p>
+<p><strong>📌 考试形态：</strong> 简答题/选择题
+- 问：Chern 数的定义公式
+- 问：Chern 数与 Hall 电导的关系
+- 问：为什么 Chern 数是整数？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- Chern 数对平庸绝缘体为 0，对 QHE 体系为非零整数
+- 3D 体系有 3 个 Chern 数（每个方向一个）
+- 有自旋时用 Spin Chern number</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Z₂ 拓扑不变量与 2D 拓扑绝缘体]</h3>
+<p><strong>来源：</strong> Slide 83-85</p>
+<p><strong>📖 定义/表述：</strong>
+时间反演对称系统用 Z₂ 拓扑不变量 <span class="inline-formula">(\nu = (0,1))</span> 分类。</p>
+<p><strong>时间反演对称性</strong>（Slide 83）：
+- 反幺正时间反演算符
+- 时间反演不变动量点（TRIM）
+- Kramers 简并：TRIM 处态能量简并
+- 边缘态交叉受保护（即使自旋不守恒）
+- 无背散射 → 强无序下也没有 Anderson 局域化</p>
+<p><strong>Z₂ 数的计算方法</strong>（Slide 85）：
+1. <strong>自旋守恒</strong>（<span class="inline-formula">(S_z)</span> 是好量子数）：<span class="inline-formula">(Z_2 = \text{mod}(C_{\text{up}}, 2))</span>，其中 <span class="inline-formula">(C_{\text{up}} = -C_{\text{down}})</span>
+2. <strong>反演对称性守恒</strong>：从所有 TRIM 点的占据 Bloch 态的<strong>宇称</strong>计算</p>
+<p><strong>体-边对应图像</strong>（Slide 84）：
+- 普通绝缘体：偶数条能带穿过 Fermi 能级
+- 拓扑绝缘体：奇数条能带穿过 Fermi 能级</p>
+<p><strong>💡 通俗理解：</strong>
+时间反演对称性给电子自旋上了一道"保险"：在拓扑绝缘体的边缘，自旋向上和向下的电子必须向相反方向运动且不能被杂质散射回头。这就是 Z₂ 拓扑绝缘体的"单向高速公路"。</p>
+<p><strong>📌 考试形态：</strong> 简答题/选择题
+- 问：Z₂ 拓扑不变量的物理含义
+- 问：时间反演对称下边缘态有哪些性质？
+- 问：如何从宇称计算 Z₂ 数？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- Z₂ 只有 0 和 1 两个值（Z₂ 因此得名）
+- 自旋守恒时用 spin Chern 数，不守恒时需用更复杂的 PFaffian 方法
+- Kramers 简并保护边缘态交叉不被打开能隙</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Kane-Mele 模型：Graphene 中的 2D 拓扑绝缘体]</h3>
+<p><strong>来源：</strong> Slide 89-96</p>
+<p><strong>📖 定义/表述：</strong>
+Kane-Mele 模型在石墨烯中通过内禀自旋-轨道耦合（SOC）打开拓扑非平庸能隙，实现量子自旋霍尔（QSH）效应。</p>
+<p>哈密顿量：
+<span class="inline-formula">(H = -t \sum_{\langle i,j\rangle} c_i^\dagger c_j + i\lambda_{SO} \sum_{\langle\langle i,j\rangle\rangle} \nu_{ij} s^z c_i^\dagger c_j + \lambda_v \sum_i \xi_i c_i^\dagger c_i + \lambda_R \sum_{\langle i,j\rangle} c_i^\dagger (s \times \hat{d}_{ij})_z c_j)</span></p>
+<ul>
+<li><span class="inline-formula">(\lambda_{SO})</span>：内禀自旋-轨道耦合 → Z₂ 拓扑非平庸</li>
+<li><span class="inline-formula">(\lambda_v)</span>：交错子格势（stagger sublattice potential）</li>
+<li><span class="inline-formula">(\lambda_R)</span>：Rashba SOC</li>
+</ul>
+<p><strong>关键特征：</strong>
+- Dirac 锥已然是拓扑非平庸的（Slide 91）
+- SOC 引入能隙，无需能带反转
+- 产生螺旋边缘态（helical edge states）——自旋滤波的一维导电通道
+- 石墨烯中 SOC 能隙很小：<span class="inline-formula">(2\lambda_I \sim 20\text{-}50\ \mu\text{eV})</span></p>
+<p><strong>扩展材料</strong>（Slides 94-96）：
+- Silicene, Germanene：低翘曲蜂窝结构，SOC 增强
+- 重金属增强 SOC（Slide 95）
+- 衬底增强 SOC（Slide 96）</p>
+<p><strong>💡 通俗理解：</strong>
+石墨烯的电子本来像无质量 Dirac 费米子一样飞奔。加上自旋-轨道耦合后，体能带虽然打开了"缝隙"，但边缘处出现了自旋向上只能向右、自旋向下只能向左的"单行道"——这就是量子自旋霍尔效应。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：Kane-Mele 模型的物理图像
+- 问：Dirac 点的拓扑性质
+- 问：SOC 在石墨烯中起什么作用？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 石墨烯 SOC 能隙极小（<span class="inline-formula">(\mu)</span>eV 量级），无法室温观测
+- 螺旋边缘态的自旋-动量锁定：自旋与运动方向刚性耦合
+- SOC → Z₂ = 1；交错势 → QVH（量子谷霍尔）；交换场 → QAH（量子反常霍尔）</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [BHZ 模型：HgTe 量子阱]</h3>
+<p><strong>来源：</strong> Slide 105</p>
+<p><strong>📖 定义/表述：</strong>
+Bernevig-Hughes-Zhang (BHZ) 模型描述 HgTe/CdTe 量子阱中的能带反转机制。</p>
+<ul>
+<li>量子阱厚度 <span class="inline-formula">(d)</span> 临界值 <span class="inline-formula">(d_c)</span></li>
+<li><span class="inline-formula">(d &lt; d_c)</span>：正常能带顺序（平庸绝缘体）</li>
+<li><span class="inline-formula">(d &gt; d_c)</span>：<span class="inline-formula">(m/B &lt; 0)</span>，能带反转 → 拓扑绝缘体</li>
+<li>Science 314, 1757 (2006)</li>
+</ul>
+<p><strong>💡 通俗理解：</strong>
+HgTe 量子阱像一块"跷跷板"——厚度超过某个临界值时，导带和价带的位置会互换。这个"反转"就是拓扑非平庸的根源。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：能带反转的含义和后果</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [量子谷霍尔效应 QVH]</h3>
+<p><strong>来源：</strong> Slide 117-123</p>
+<p><strong>📖 定义/表述：</strong>
+在石墨烯中加入交错子格势（如与 BN 衬底耦合），打破反演对称性，实现谷极化。</p>
+<p><span class="inline-formula">(E(q) = \pm \sqrt{\left(\frac{3}{2} a t q\right)^2 + \Delta^2})</span></p>
+<p><strong>谷 Chern 数：</strong>
+- <span class="inline-formula">(C_K = 1)</span>, <span class="inline-formula">(C_{K'} = -1)</span>
+- 总 Chern 数：<span class="inline-formula">(C = C_K + C_{K'} = 0)</span>
+- Valley Chern 数：<span class="inline-formula">(C_v = C_K - C_{K'} = 2C_K)</span></p>
+<p><strong>谷极化的产生</strong>（Slide 119）：
+- 左旋圆偏振光 → 激发 K 谷
+- 右旋圆偏振光 → 激发 K' 谷</p>
+<p><strong>MoS₂ 单层</strong>（Slide 120-121）：圆偏振光激发下产生谷极化，通过光致发光（PL）谱探测。</p>
+<p><strong>💡 通俗理解：</strong>
+石墨烯有两个"谷"（K 和 K'），像两个山谷。加上交错势后，两个谷的物理性质变得不同——每个谷有自己的 Chern 数，可以分别操控。</p>
+<p><strong>📌 考试形态：</strong> 选择题/简答题
+- 问：总 Chern 数与 Valley Chern 数的区别
+- 问：如何实现谷极化？</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [量子反常霍尔效应 QAHE]</h3>
+<p><strong>来源：</strong> Slide 125-140</p>
+<p><strong>📖 定义/表述：</strong>
+量子反常霍尔效应（QAHE）——不需要外磁场的量子霍尔效应，通过打破时间反演对称性实现。</p>
+<p><strong>实现途径</strong>（Slide 125）：
+1. 周期性磁场（零磁通）→ 破缺 TRS
+2. 磁性掺杂 → 内禀交换场
+3. 衬底近邻效应 → 诱导磁性</p>
+<p><strong>技术路线</strong>（Slide 139）：
+- TI 薄膜（如 Bi₂Se₃）适当厚度 + MBE 生长
+- 磁性掺杂（Cr, V 等）产生垂直磁各向异性 → 铁磁绝缘体
+- 化学掺杂/场效应调节化学势
+- 实验验证：Science 340, 167 (2013)</p>
+<p><strong>主要模型：</strong>
+- 石墨烯 + Rashba SOC + 交换场 → <span class="inline-formula">(C = 2)</span>（Slides 127-129）
+- Bi₂Se₃ 薄膜 → <span class="inline-formula">(C = 1)</span>（Slide 130）
+- 有机体系 Mn₂C₁₂H₁₂ → <span class="inline-formula">(C = 1)</span>（Slide 131）</p>
+<p><strong>面内磁化 QAHE</strong>（Slide 135）：需破缺所有镜面对称性（面内和面外）。</p>
+<p><strong>实验确认</strong>（Slide 140）：5QL 样品在 1.4K 下观测到零场 QAH 效应；外加磁场可将量子化温度提升至 6.5K。</p>
+<p><strong>💡 通俗理解：</strong>
+普通 QHE 需要巨大磁场才能看到。QAHE 就像"自带磁铁"——材料内部的磁性原子提供了等效磁场，让量子霍尔效应在零外磁场下也能发生。</p>
+<p><strong>📌 考试形态：</strong> 简答题/选择题
+- 问：QAHE 需要什么条件？与 IQHE 的区别？
+- 问：QAHE 中 C=1 和 C=2 的区别</p>
+<p><strong>⚠️ 易错警示：</strong>
+- QAH 与 QSH 的区别：QAH 破缺 TRS，QSH 保护 TRS
+- 实现 QAHE 需要同时满足：TI + 磁性 + 绝缘体</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [3D 拓扑绝缘体]</h3>
+<p><strong>来源：</strong> Slide 141-150</p>
+<p><strong>📖 定义/表述：</strong>
+3D 拓扑绝缘体：具有绝缘体能隙但表面存在拓扑保护的金属态。</p>
+<p><strong>Bi₂Se₃ 原型</strong>（Slide 142）：
+- 含 SOC → 奇偶性反转 → 拓扑表面态
+- 无 SOC → 普通绝缘体</p>
+<p><strong>探测手段</strong>（Slide 143）：
+- ARPES（角分辨光电子能谱）：探测表面能带结构和自旋纹理
+- STM（扫描隧道显微镜）：探测实空间表面态</p>
+<p><strong>主要特征</strong>（Slides 144-145）：
+- 螺旋自旋纹理（Helical spin texture）
+- 拓扑表面态 Dirac 锥</p>
+<p><strong>弱 TI</strong>（Slides 146-148）：由堆叠 2D TI 层构成，具有 1D 边缘态（非 2D 表面态）。</p>
+<p><strong>半整数量子霍尔效应</strong>（Slide 150）：Bi₂Se₃ 上/下表面共同贡献，表现为 <span class="inline-formula">(\nu = \pm 1/2)</span> 的量子霍尔效应。</p>
+<p><strong>💡 通俗理解：</strong>
+3D 拓扑绝缘体像穿了"绝缘盔甲"——内部完全不导电，但表面有一层"盔甲"可以导电。这层表面导电"盔甲"因为拓扑保护，不会被划伤或污染破坏。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：3D 拓扑绝缘体的特征
+- 问：ARPES 和 STM 如何探测拓扑表面态？
+- 问：强 TI 与弱 TI 的区别</p>
+<p><strong>⚠️ 易错警示：</strong>
+- 3D TI 的表面态是 2D 的，不是 1D 的
+- 强 TI 在所有表面都有金属态；弱 TI 只在特定方向的表面出现
+- 3D TI 的表面态受时间反演对称性保护</p>
+<hr />
+<h3><span class="p1-tag">P1</span> [拓扑半金属]</h3>
+<p><strong>来源：</strong> Slide 152-167</p>
+<p><strong>📖 定义/表述：</strong>
+拓扑半金属：体态无能隙但拓扑非平庸。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>简并度</th>
+<th>特征</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dirac 半金属</td>
+<td>4 重简并</td>
+<td>Dirac 锥</td>
+<td>Na₃Bi, Cd₃As₂</td>
+</tr>
+<tr>
+<td>Weyl 半金属</td>
+<td>2 重简并</td>
+<td>Weyl 点 + Fermi 弧</td>
+<td>TaAs</td>
+</tr>
+<tr>
+<td>Nodal-line 半金属</td>
+<td>连续简并线</td>
+<td>节点线</td>
+<td>ZrSiS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键物理</strong>：
+- Weyl 点：贝利曲率的磁单极（源或汇）
+- Fermi 弧：连接相反手性 Weyl 点的表面态
+- Type-II：倾斜的 Dirac/Weyl 锥，打破洛伦兹不变性</p>
+<p><strong>💡 通俗理解：</strong>
+拓扑半金属是"半绝缘半金属"——体内允许电子通过（不像绝缘体），但又和普通金属不同：电子必须经过特定的"Weyl 点"才能穿梭，这些点像微观磁单极。</p>
+<p><strong>📌 考试形态：</strong> 选择题/简答题
+- 问：三种拓扑半金属的区别
+- 问：Fermi 弧是什么？</p>
+<hr />
+<h3>[拓扑超导与马约拉纳费米子] 🟡 P2</h3>
+<p><strong>来源：</strong> Slide 179</p>
+<p><strong>简介：</strong> 拓扑超导体 + 马约拉纳费米子（Majorana fermion）是当前热点。FeSeTe 体系：超导能隙很小，QAHE + SC。</p>
+<hr />
+<h2>4.3 二维体系中的相变</h2>
+<h3><span class="p1-tag">P1</span> [维度与相变：Mermin-Wagner 定理]</h3>
+<p><strong>来源：</strong> Slide 181</p>
+<p><strong>📖 定义/表述：</strong>
+维度对相变和临界行为有重要影响。</p>
+<ul>
+<li><strong>1D</strong>：<span class="inline-formula">(T&gt;0)</span> 时体系总是无序，不存在长程序，无相变</li>
+<li><strong>2D</strong>：取决于序参量自由度数 <span class="inline-formula">(N)</span></li>
+<li><span class="inline-formula">(N=1)</span>：有相变，如二维 Ising 模型</li>
+<li><span class="inline-formula">(N=2)</span>：无长程序但有准长程序，可发生 KT 相变</li>
+<li><span class="inline-formula">(N=3)</span>：无相变，如二维 Heisenberg 模型</li>
+</ul>
+<p><strong>关联函数对比：</strong>
+<span class="inline-formula">(G(r) \sim \begin{cases} e^{-r/\xi(T)} &amp; \text{(1D)} \ r^{-\eta(T)} &amp; \text{(2D, KT相)} \ \text{常数} &amp; \text{(3D)} \end{cases})</span></p>
+<hr />
+<h3><span class="p0-tag">P0</span> [拓扑缺陷与涡旋]</h3>
+<p><strong>来源：</strong> Slide 183-191</p>
+<p><strong>📖 定义/表述：</strong>
+拓扑缺陷：无法通过连续形变消除的不连续性。</p>
+<p>以二维自旋体系为例：
+- 二维格点上自旋与 X 轴夹角为 <span class="inline-formula">(\phi_i)</span>
+- 闭合回路 <span class="inline-formula">(L)</span>：<span class="inline-formula">(\Phi_L = \sum_i \Delta\phi_i)</span>
+- <span class="inline-formula">(\Phi_L = 0)</span>：非拓扑性激发，每个自旋方向角单值确定
+- <span class="inline-formula">(\Phi_L = n \cdot 2\pi)</span>，<span class="inline-formula">(n = \pm 1, \pm 2, \dots)</span>：拓扑性激发，<span class="inline-formula">(n)</span> 为拓扑荷</p>
+<p><strong>速度场分解</strong>（将 <span class="inline-formula">(\phi(r))</span> 视为速度势）：
+<span class="inline-formula">(v(r) = \nabla\phi(r))</span>
+- <span class="inline-formula">(v = v_s + v_v)</span>（无旋场 + 无源场）
+- <span class="inline-formula">(\nabla \times v_s = 0)</span>，<span class="inline-formula">(\nabla \cdot v_v = 0)</span>
+- <span class="inline-formula">(v_s)</span> 和 <span class="inline-formula">(v_v)</span> 之间无相互作用：<span class="inline-formula">(\int v_s \cdot v_v\ dr = 0)</span></p>
+<p><strong>涡旋相互作用</strong>（Slide 192）：
+- 拓扑性元激发之间相互作用在形式上等价于二维点电荷
+- <span class="inline-formula">(U(r_i, r_j) = -2q_i q_j \ln \frac{|r_i - r_j|}{a})</span></p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Kosterlitz-Thouless (K-T) 相变]</h3>
+<p><strong>来源：</strong> Slide 193-198</p>
+<p><strong>📖 定义/表述：</strong>
+K-T 相变：由拓扑缺陷（涡旋）驱动的二维相变，2016 年诺贝尔物理学奖。</p>
+<p><strong>X-Y 模型</strong>：
+<span class="inline-formula">(H = -J \sum_{\langle ij\rangle} \cos(\varphi_i - \varphi_j))</span></p>
+<p>简谐近似：<span class="inline-formula">(H = \frac{J}{2} \sum_{\langle ij\rangle} (\varphi_i - \varphi_j)^2)</span></p>
+<p><strong>单涡旋能量和熵</strong>：
+- <span class="inline-formula">(E_v = J\pi \ln \frac{L}{a})</span>（<span class="inline-formula">(a)</span>：点阵间距，<span class="inline-formula">(L)</span>：系统尺寸）
+- <span class="inline-formula">(S = k_B \ln \frac{L^2}{a^2})</span>（涡旋可在 <span class="inline-formula">(L^2/a^2)</span> 个位置上放置）
+- <span class="inline-formula">(F_v = E_v - TS = J\pi \ln \frac{L}{a} - 2k_B T \ln \frac{L}{a})</span></p>
+<p><strong>临界温度</strong>：<span class="inline-formula">(F_v = 0 \Rightarrow T_c = \frac{\pi J}{2k_B})</span>
+- <span class="inline-formula">(T &lt; T_c)</span>：<span class="inline-formula">(F_v &gt; 0)</span>，正负涡旋束缚对（准长程序）
+- <span class="inline-formula">(T &gt; T_c)</span>：<span class="inline-formula">(F_v &lt; 0)</span>，大量自由涡旋产生 → 拓扑长程序破坏</p>
+<p><strong>K-T 相变的本质</strong>（Slide 195）：
+- 涡旋对屏蔽效应 → 重正化群处理
+- 自由能的第 <span class="inline-formula">(n)</span> 级微商在相变点出现突变 → <strong>无穷级相变</strong></p>
+<p><strong>验证体系</strong>（Slide 196-197）：二维氦超流膜，超流-正常流体转变由涡旋-反涡旋解束缚驱动。</p>
+<p><strong>💡 通俗理解：</strong>
+普通相变是"有序→无序"，KT 相变是"绑在一起的涡旋对 → 自由涡旋"。温度低了，正/负涡旋成双成对，互不干扰；温度高了，对子解开，单个涡旋到处破坏秩序。</p>
+<p><strong>📌 考试形态：</strong> 简答题/计算题
+- 问：K-T 相变的基本物理图像
+- 问：<span class="inline-formula">(T_c)</span> 的推导（自由能 = 0 条件）
+- 问：KT 相变与普通相变的区别
+- 问：涡旋相互作用的对数形式</p>
+<p><strong>⚠️ 易错警示：</strong>
+- KT 相变<strong>不是</strong>对称性破缺相变，而是拓扑缺陷驱动
+- 准长程序（algebraic order）的关联函数是幂律衰减，不是常数
+- KT 相变是<strong>无穷级相变</strong>（不是一级也不是二级）</p>
+<hr />
+<h2>4.4 准一维体系的 Peierls 不稳定性和电荷密度波</h2>
+<h3><span class="p1-tag">P1</span> [一维体系概述]</h3>
+<p><strong>来源：</strong> Slide 199</p>
+<p><strong>📖 定义/表述：</strong>
+一维体系实例：导电聚合物、金属卤化物、KCP 晶体、过渡金属三硫化合物、电荷转移有机复合物、有机超导体 Bechgaard 盐 (TMTSF)₂X、有机铁磁体 m-PDPC、半导体纳米线/量子线。</p>
+<p>能带：<span class="inline-formula">(E(k) = \frac{\hbar^2 k^2}{2m})</span>，<span class="inline-formula">(k_F = \frac{n}{4a})</span></p>
+<hr />
+<h3><span class="p0-tag">P0</span> [Peierls 不稳定性]</h3>
+<p><strong>来源：</strong> Slide 200-201</p>
+<p><strong>📖 定义/表述：</strong>
+对于半满能带的一维晶格，等距离原子排列是不稳定的，会发生<strong>二聚化</strong>（dimerization）。</p>
+<p><strong>机制：</strong>
+- 波长为 <span class="inline-formula">(\lambda = 1/k)</span> 的电子受格点反射，相邻格点反射波位相差 <span class="inline-formula">(\Delta\varphi = \Delta l \cdot 2\pi / \lambda = 2a \cdot 2\pi / \lambda)</span>
+- <span class="inline-formula">(\lambda = 2a)</span> 时：<span class="inline-formula">(\Delta\varphi = 2\pi)</span> → 电子波不能继续传播 → 能隙打开
+- 能隙对应的布里渊区边界：<span class="inline-formula">(k_B = 1/(2a))</span>
+- Peierls 不稳定性要求：<span class="inline-formula">(k_B = k_F)</span>（费米面与布里渊区边界重合）</p>
+<p><strong>结果：</strong>
+- 低温：体系处于二聚化的半导体/绝缘体状态，不导电
+- 高温：电子获得热能 → 费米面上能隙消失 → 一维体系变成导体</p>
+<p><strong>💡 通俗理解：</strong>
+想象一排等距原子，电子刚好填满一半的能带。原子们发现"两两配对"（二聚化）能让体系的能量更低，于是就自动形成了"二人组"的排列，同时打开了一个能隙。</p>
+<p><strong>📌 考试形态：</strong> 简答题/选择题
+- 问：Peierls 不稳定性的条件和后果
+- 问：为什么一维体系特别容易发生 Peierls 相变？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- Peierls 不稳定性是<strong>一维专有</strong>现象（二维和三维的屏蔽效应抑制了它）
+- 不是所有一维晶体都发生 Peierls 相变，需要半满能带</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [电荷密度波 CDW]</h3>
+<p><strong>来源：</strong> Slide 202</p>
+<p><strong>📖 定义/表述：</strong>
+电荷密度波（CDW）：Peierls 相变后晶格周期从 <span class="inline-formula">(a)</span> 变为 <span class="inline-formula">(a')</span>，形成超晶格。电子密度在新周期场中重新分布：</p>
+<p><span class="inline-formula">(\rho(x) = n_0 + n_c \cos\left(\frac{2\pi x}{\lambda} + \varphi\right))</span></p>
+<p>其中 <span class="inline-formula">(\lambda = 2a')</span>，<span class="inline-formula">(n_c)</span> 为密度起伏幅度，<span class="inline-formula">(\varphi)</span> 为初位相。</p>
+<p><strong>关键条件</strong>：<span class="inline-formula">(k'_B = 1/(2a') = k_F \Rightarrow a' = 1/(2k_F) = \lambda/2)</span></p>
+<p><strong>基本特征</strong>：空间调制电荷密度 + 费米能处能隙 + 半导体电导</p>
+<p><strong>两种类型</strong>：
+1. <strong>可公度相变</strong>：<span class="inline-formula">(a'/a =)</span> 有理数，晶格整体仍具有周期性
+2. <strong>非公度相变</strong>：<span class="inline-formula">(a'/a =)</span> 无理数，晶格整体无周期性</p>
+<p><strong>💡 通俗理解：</strong>
+Peierls 相变后，原子重新排列（周期变了），电子密度也跟着"起浪"——在空间上周期性地浓淡分布，这就是电荷密度波（CDW）。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：CDW 的定义和公式
+- 问：可公度和非公度相变的区别</p>
+<p><strong>⚠️ 易错警示：</strong>
+- CDW 的波长 <span class="inline-formula">(\lambda)</span>（或超晶格常数 <span class="inline-formula">(a')</span>）只取决于电子密度（<span class="inline-formula">(k_F)</span>），与原晶格常数 <span class="inline-formula">(a)</span> 无关
+- CDW 同时具备：电荷调制 + 能隙 + 半导体行为</p>
+<hr />
+<h3><span class="p0-tag">P0</span> [自旋密度波 SDW]</h3>
+<p><strong>来源：</strong> Slide 203</p>
+<p><strong>📖 定义/表述：</strong>
+考虑电子相互作用后，正负自旋电子的 CDW 位形可以不同，导致自旋密度起伏。</p>
+<p><span class="inline-formula">(\rho_\uparrow(x) = \frac{n_0}{2} + \frac{n_c}{2} \cos\left(\frac{2\pi x}{\lambda} + \varphi_\uparrow\right))</span></p>
+<p><span class="inline-formula">(\rho_\downarrow(x) = \frac{n_0}{2} + \frac{n_c}{2} \cos\left(\frac{2\pi x}{\lambda} + \varphi_\downarrow\right))</span></p>
+<p>总 CDW：<span class="inline-formula">(\rho(x) = \rho_\uparrow(x) + \rho_\downarrow(x) = n_0 + n_c \cos\frac{\varphi_\uparrow-\varphi_\downarrow}{2} \cos\left(2\pi\frac{x}{\lambda} + \frac{\varphi_\uparrow+\varphi_\downarrow}{2}\right))</span></p>
+<p>SDW：<span class="inline-formula">(S(x) = \rho_\uparrow(x) - \rho_\downarrow(x) = \frac{n_c}{2} \sin\frac{\varphi_\uparrow-\varphi_\downarrow}{2} \cos\left(2\pi\frac{x}{\lambda} + \frac{\varphi_\uparrow+\varphi_\downarrow-\pi}{2}\right))</span></p>
+<p><strong>两种极限</strong>：
+- <span class="inline-formula">(\varphi_\uparrow = \varphi_\downarrow)</span>：只有 CDW，无 SDW
+- <span class="inline-formula">(\varphi_\uparrow = \varphi_\downarrow + \pi)</span>：只有 SDW，无 CDW</p>
+<p><strong>💡 通俗理解：</strong>
+CDW 是电荷密度在空间上"起浪"，SDW 是自旋密度在空间上"起浪"。两者是同一物理（电子-电子相互作用 + Peierls）的一体两面——取决于自旋向上和向下电子的位相关系。</p>
+<p><strong>📌 考试形态：</strong> 简答题
+- 问：CDW 和 SDW 的关系
+- 问：什么条件下只有 CDW？什么条件下只有 SDW？</p>
+<p><strong>⚠️ 易错警示：</strong>
+- SDW 和 CDW 可以共存（一般情况），也可以独立存在
+- 一维电子-晶格相互作用体系不是 CDW 的唯一来源</p>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-4">
+  <div class="module-header">
+    <span class="icon">📐</span><span class="title">模块 4：公式/定理速查表</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>4.1 半导体低维电子系统</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>公式</th>
+<th>说明</th>
+<th>适用条件</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td><span class="inline-formula">(\varepsilon_n = \frac{n^2\pi^2\hbar^2}{2mW^2})</span></td>
+<td>方势阱子带能级</td>
+<td><span class="inline-formula">(W = n\lambda/2)</span></td>
+<td>Slide 2</td>
+</tr>
+<tr>
+<td>F2</td>
+<td><span class="inline-formula">(\varepsilon_n = (n-\frac12)\hbar\omega_0)</span></td>
+<td>抛物线势子带能级</td>
+<td><span class="inline-formula">(V(z) = \frac12 m\omega_0^2 z^2)</span></td>
+<td>Slide 2</td>
+</tr>
+<tr>
+<td>F3</td>
+<td><span class="inline-formula">(\sigma_0 = ne^2\tau/m)</span></td>
+<td>德鲁特电导率</td>
+<td>无磁场</td>
+<td>Slide 8</td>
+</tr>
+<tr>
+<td>F4</td>
+<td><span class="inline-formula">(\sigma_{xx} = \frac{\sigma_0}{1+(\omega_c\tau)^2})</span></td>
+<td>纵向电导率</td>
+<td>有磁场</td>
+<td>Slide 9</td>
+</tr>
+<tr>
+<td>F5</td>
+<td><span class="inline-formula">(\sigma_{xy} = -\sigma_0\frac{\omega_c\tau}{1+(\omega_c\tau)^2})</span></td>
+<td>霍尔电导率</td>
+<td>有磁场</td>
+<td>Slide 9</td>
+</tr>
+<tr>
+<td>F6</td>
+<td><span class="inline-formula">(\rho_{xx} = \frac{\sigma_{xx}}{\sigma_{xx}^2+\sigma_{xy}^2})</span></td>
+<td>纵向电阻率与电导关系</td>
+<td>通用</td>
+<td>Slide 9</td>
+</tr>
+<tr>
+<td>F7</td>
+<td><span class="inline-formula">(\rho_{xy} = -\frac{\sigma_{xy}}{\sigma_{xx}^2+\sigma_{xy}^2})</span></td>
+<td>霍尔电阻率与电导关系</td>
+<td>通用</td>
+<td>Slide 9</td>
+</tr>
+<tr>
+<td>F8</td>
+<td><span class="inline-formula">(\omega_c = eB/mc)</span></td>
+<td>回旋频率</td>
+<td>磁场B下</td>
+<td>Slide 9</td>
+</tr>
+<tr>
+<td>F9</td>
+<td><span class="inline-formula">(\sigma_H = \sigma_{xy} = -\frac{nec}{B})</span></td>
+<td>霍尔电导（<span class="inline-formula">(\sigma_{xx}=0)</span>时）</td>
+<td><span class="inline-formula">(\sigma_{xx}=0)</span></td>
+<td>Slide 10</td>
+</tr>
+<tr>
+<td>F10</td>
+<td><span class="inline-formula">(\boldsymbol{j} = \boldsymbol{\sigma}\cdot\boldsymbol{E})</span></td>
+<td>电流密度-电场关系</td>
+<td>张量形式</td>
+<td>Slide 8</td>
+</tr>
+<tr>
+<td>F11</td>
+<td><span class="inline-formula">(\varepsilon_i = (i+\frac12)\hbar\omega_c + eEl_c^2k_y - \frac{(eE)^2}{2m\omega_c^2})</span></td>
+<td>Landau能级（有电场）</td>
+<td>2DEG, 磁场B</td>
+<td>Slide 11</td>
+</tr>
+<tr>
+<td>F12</td>
+<td><span class="inline-formula">(l_c = \sqrt{\frac{\hbar c}{eB}})</span></td>
+<td>经典回旋半径（磁长度）</td>
+<td>磁场B</td>
+<td>Slide 10</td>
+</tr>
+<tr>
+<td>F13</td>
+<td><span class="inline-formula">(\sigma_H = \frac{ie^2}{h})</span></td>
+<td>IQHE霍尔电导</td>
+<td><span class="inline-formula">(i)</span>个Landau能级填满</td>
+<td>Slide 19</td>
+</tr>
+<tr>
+<td>F14</td>
+<td><span class="inline-formula">(R_H = \frac{h}{ie^2})</span></td>
+<td>IQHE霍尔电阻</td>
+<td><span class="inline-formula">(i)</span>个Landau能级填满</td>
+<td>Slide 19</td>
+</tr>
+<tr>
+<td>F15</td>
+<td><span class="inline-formula">(\frac{h}{e^2} = 25812.806\ \Omega)</span></td>
+<td>电阻量子</td>
+<td>自1990年电阻标准</td>
+<td>Slide 22</td>
+</tr>
+<tr>
+<td>F16</td>
+<td><span class="inline-formula">(\alpha = \frac{e^2}{2hc\epsilon_0})</span></td>
+<td>精细结构常数</td>
+<td>可由QHE精确测量</td>
+<td>Slide 23</td>
+</tr>
+<tr>
+<td>F17</td>
+<td><span class="inline-formula">(n = \frac{ieB}{hc})</span></td>
+<td>二维电子密度（<span class="inline-formula">(i)</span>个Landau能级）</td>
+<td>2D, 磁场B</td>
+<td>Slide 19</td>
+</tr>
+<tr>
+<td>F18</td>
+<td><span class="inline-formula">(\Psi = \prod_{i&lt;j}(z_i-z_j)^m \exp(-\sum_k</td>
+<td>z_k</td>
+<td>^2/4l_c^2))</span></td>
+<td>Laughlin波函数</td>
+</tr>
+<tr>
+<td>F19</td>
+<td><span class="inline-formula">(\nu = 1/m)</span></td>
+<td>FQHE占据数</td>
+<td>Laughlin态</td>
+<td>Slide 29</td>
+</tr>
+<tr>
+<td>F20</td>
+<td><span class="inline-formula">(\nu = \frac{1}{mp+\alpha})</span></td>
+<td>FQHE级联模型</td>
+<td><span class="inline-formula">(\alpha = \pm 1)</span></td>
+<td>Slide 31</td>
+</tr>
+</tbody>
+</table>
+<h2>4.2 几何位相与拓扑态</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>公式</th>
+<th>说明</th>
+<th>适用条件</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F21</td>
+<td><span class="inline-formula">(\boldsymbol{A}(\boldsymbol{R}) = i\langle u(\boldsymbol{R})</td>
+<td>\nabla_{\boldsymbol{R}}</td>
+<td>u(\boldsymbol{R})\rangle)</span></td>
+<td>Berry连接</td>
+</tr>
+<tr>
+<td>F22</td>
+<td><span class="inline-formula">(\boldsymbol{\Omega}(\boldsymbol{R}) = \nabla_{\boldsymbol{R}} \times \boldsymbol{A}(\boldsymbol{R}))</span></td>
+<td>Berry曲率</td>
+<td>参数空间</td>
+<td>Slide 57</td>
+</tr>
+<tr>
+<td>F23</td>
+<td><span class="inline-formula">(\gamma = \oint_C \boldsymbol{A} \cdot d\boldsymbol{R})</span></td>
+<td>Berry相位（回路积分）</td>
+<td>绝热循环</td>
+<td>Slide 55</td>
+</tr>
+<tr>
+<td>F24</td>
+<td><span class="inline-formula">(\gamma = \int_S \boldsymbol{\Omega} \cdot d\boldsymbol{S})</span></td>
+<td>Berry相位（面积分）</td>
+<td>Stokes定理</td>
+<td>Slide 57</td>
+</tr>
+<tr>
+<td>F25</td>
+<td><span class="inline-formula">(C = \frac{1}{2\pi} \int_{\text{BZ}} \boldsymbol{\Omega}(\boldsymbol{k})\ d^2k)</span></td>
+<td>Chern数</td>
+<td>2D Brillouin区</td>
+<td>Slide 73</td>
+</tr>
+<tr>
+<td>F26</td>
+<td><span class="inline-formula">(\sigma_{xy} = \frac{e^2}{h} \cdot C)</span></td>
+<td>TKNN公式（Chern数→Hall电导）</td>
+<td>2D绝缘体</td>
+<td>Slide 75</td>
+</tr>
+<tr>
+<td>F27</td>
+<td><span class="inline-formula">(E(q) = \pm \sqrt{(\frac32 a t q)^2 + \Delta^2})</span></td>
+<td>石墨烯能谱（有能隙）</td>
+<td>交错势<span class="inline-formula">(\Delta)</span></td>
+<td>Slide 117</td>
+</tr>
+<tr>
+<td>F28</td>
+<td><span class="inline-formula">(C_K = 1, C_{K'} = -1)</span></td>
+<td>谷Chern数</td>
+<td>石墨烯K/K'点</td>
+<td>Slide 118</td>
+</tr>
+<tr>
+<td>F29</td>
+<td><span class="inline-formula">(C_v = C_K - C_{K'})</span></td>
+<td>Valley Chern数</td>
+<td>谷霍尔效应</td>
+<td>Slide 118</td>
+</tr>
+</tbody>
+</table>
+<h2>4.3 二维体系中的相变</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>公式</th>
+<th>说明</th>
+<th>适用条件</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F30</td>
+<td><span class="inline-formula">(H = -J \sum_{\langle ij\rangle} \cos(\varphi_i - \varphi_j))</span></td>
+<td>X-Y模型哈密顿量</td>
+<td>最近邻相互作用</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F31</td>
+<td><span class="inline-formula">(H = \frac{J}{2} \sum_{\langle ij\rangle} (\varphi_i - \varphi_j)^2)</span></td>
+<td>X-Y模型（简谐近似）</td>
+<td>低温近似</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F32</td>
+<td><span class="inline-formula">(\Phi_L = \sum_i \Delta\phi_i = n\cdot 2\pi)</span></td>
+<td>拓扑荷（涡旋强度）</td>
+<td>闭合回路</td>
+<td>Slide 190</td>
+</tr>
+<tr>
+<td>F33</td>
+<td><span class="inline-formula">(E_v = J\pi \ln(L/a))</span></td>
+<td>单涡旋能量</td>
+<td>二维</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F34</td>
+<td><span class="inline-formula">(S = k_B \ln(L^2/a^2))</span></td>
+<td>单涡旋熵</td>
+<td>二维</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F35</td>
+<td><span class="inline-formula">(F_v = J\pi\ln(L/a) - 2k_B T\ln(L/a))</span></td>
+<td>单涡旋自由能</td>
+<td>二维</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F36</td>
+<td><span class="inline-formula">(T_c = \pi J/(2k_B))</span></td>
+<td>K-T相变临界温度</td>
+<td>X-Y模型</td>
+<td>Slide 194</td>
+</tr>
+<tr>
+<td>F37</td>
+<td><span class="inline-formula">(U(r_i, r_j) = -2q_i q_j \ln(</td>
+<td>r_i-r_j</td>
+<td>/a))</span></td>
+<td>涡旋对相互作用</td>
+</tr>
+<tr>
+<td>F38</td>
+<td><span class="inline-formula">(G(r) \sim r^{-\eta(T)})</span></td>
+<td>准长程序关联函数（代数衰减）</td>
+<td>KT相低温</td>
+<td>Slide 181</td>
+</tr>
+</tbody>
+</table>
+<h2>4.4 Peierls 不稳定性和电荷密度波</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>公式</th>
+<th>说明</th>
+<th>适用条件</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F39</td>
+<td><span class="inline-formula">(E(k) = \hbar^2 k^2/(2m))</span></td>
+<td>一维自由电子能带</td>
+<td>自由电子</td>
+<td>Slide 199</td>
+</tr>
+<tr>
+<td>F40</td>
+<td><span class="inline-formula">(k_F = n/(4a))</span></td>
+<td>一维费米波矢</td>
+<td>电子密度<span class="inline-formula">(n)</span></td>
+<td>Slide 199</td>
+</tr>
+<tr>
+<td>F41</td>
+<td><span class="inline-formula">(k_B = 1/(2a))</span></td>
+<td>一维布里渊区边界</td>
+<td>晶格常数<span class="inline-formula">(a)</span></td>
+<td>Slide 200</td>
+</tr>
+<tr>
+<td>F42</td>
+<td><span class="inline-formula">(\rho(x) = n_0 + n_c \cos(2\pi x/\lambda + \varphi))</span></td>
+<td>电荷密度波</td>
+<td>CDW态</td>
+<td>Slide 202</td>
+</tr>
+<tr>
+<td>F43</td>
+<td><span class="inline-formula">(k'_B = k_F \Rightarrow a' = 1/(2k_F) = \lambda/2)</span></td>
+<td>Peierls/CDW条件</td>
+<td>Fermi面与BZ边界重合</td>
+<td>Slide 202</td>
+</tr>
+<tr>
+<td>F44</td>
+<td><span class="inline-formula">(\rho_\uparrow(x) = \frac{n_0}{2} + \frac{n_c}{2} \cos(2\pi x/\lambda + \varphi_\uparrow))</span></td>
+<td>自旋↑的CDW</td>
+<td>计入电子自旋</td>
+<td>Slide 203</td>
+</tr>
+<tr>
+<td>F45</td>
+<td><span class="inline-formula">(\rho_\downarrow(x) = \frac{n_0}{2} + \frac{n_c}{2} \cos(2\pi x/\lambda + \varphi_\downarrow))</span></td>
+<td>自旋↓的CDW</td>
+<td>计入电子自旋</td>
+<td>Slide 203</td>
+</tr>
+</tbody>
+</table>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-5">
+  <div class="module-header">
+    <span class="icon">🔄</span><span class="title">模块 5：对比辨析表</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>5.1 IQHE vs FQHE</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>IQHE（整数量子霍尔效应）</th>
+<th>FQHE（分数量子霍尔效应）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发现年份</strong></td>
+<td>1980 (von Klitzing)</td>
+<td>1982 (崔琦/Stomer)</td>
+</tr>
+<tr>
+<td><strong>Hall平台值</strong></td>
+<td><span class="inline-formula">(R_H = h/(ie^2))</span>, <span class="inline-formula">(i)</span>为整数</td>
+<td><span class="inline-formula">(R_H = h/(\nu e^2))</span>, <span class="inline-formula">(\nu = p/m)</span> 分数</td>
+</tr>
+<tr>
+<td><strong>能隙来源</strong></td>
+<td><strong>单粒子</strong> Landau能级量子化</td>
+<td><strong>多体关联</strong>效应</td>
+</tr>
+<tr>
+<td><strong>样品要求</strong></td>
+<td>Si-MOSFET, 界面足够纯</td>
+<td>GaAs/AlGaAs异质结, 极高迁移率</td>
+</tr>
+<tr>
+<td><strong>理论解释</strong></td>
+<td>扩展态/局域态 + Laughlin规范变换</td>
+<td>Laughlin波函数 + 复合费米子</td>
+</tr>
+<tr>
+<td><strong>准粒子</strong></td>
+<td>整数电荷</td>
+<td>分数电荷 (<span class="inline-formula">(e/3)</span>, <span class="inline-formula">(e/5)</span>...)</td>
+</tr>
+<tr>
+<td><strong>物态</strong></td>
+<td>单粒子量子化态</td>
+<td>不可压缩的量子液体</td>
+</tr>
+<tr>
+<td><strong>诺奖</strong></td>
+<td>1985 (von Klitzing)</td>
+<td>1998 (崔琦/Stomer/Laughlin)</td>
+</tr>
+<tr>
+<td><strong>拓扑不变量</strong></td>
+<td>Chern数 = 整数</td>
+<td>复合费米子有效Chern数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>考试要点：核心区别是能隙来源（单粒子 vs 多体）</strong></p>
+<hr />
+<h2>5.2 CDW vs SDW</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>CDW（电荷密度波）</th>
+<th>SDW（自旋密度波）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>物理量</strong></td>
+<td>电荷密度 <span class="inline-formula">(\rho(x))</span> 在空间调制</td>
+<td>自旋密度 <span class="inline-formula">(S(x))</span> 在空间调制</td>
+</tr>
+<tr>
+<td><strong>数学形式</strong></td>
+<td><span class="inline-formula">(\rho(x)=n_0+n_c\cos(2\pi x/\lambda+\varphi))</span></td>
+<td><span class="inline-formula">(S(x)=\frac{n_c}{2}\sin\frac{\varphi_\uparrow-\varphi_\downarrow}{2}\cos(2\pi x/\lambda+\cdots))</span></td>
+</tr>
+<tr>
+<td><strong>条件</strong></td>
+<td><span class="inline-formula">(\varphi_\uparrow = \varphi_\downarrow)</span> 时纯CDW</td>
+<td><span class="inline-formula">(\varphi_\uparrow = \varphi_\downarrow+\pi)</span> 时纯SDW</td>
+</tr>
+<tr>
+<td><strong>价电荷</strong></td>
+<td>电子密度不均匀</td>
+<td>总电荷均匀，自旋密度不均匀</td>
+</tr>
+<tr>
+<td><strong>物理起源</strong></td>
+<td>电子-晶格相互作用（Peierls）</td>
+<td>电子-电子相互作用</td>
+</tr>
+<tr>
+<td><strong>能隙</strong></td>
+<td>有（Fermi面附近）</td>
+<td>有</td>
+</tr>
+<tr>
+<td><strong>共同点</strong></td>
+<td>都是Peierls不稳定性的结果，源于一维Fermi面嵌套</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5.3 拓扑绝缘体 vs 普通绝缘体</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>普通绝缘体</th>
+<th>拓扑绝缘体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>体能隙</strong></td>
+<td>有</td>
+<td>有</td>
+</tr>
+<tr>
+<td><strong>表面/边缘态</strong></td>
+<td>无</td>
+<td>有（拓扑保护）</td>
+</tr>
+<tr>
+<td><strong>Chern数/Z₂</strong></td>
+<td>0</td>
+<td>非零</td>
+</tr>
+<tr>
+<td><strong>抗扰动能力</strong></td>
+<td>易受杂质影响</td>
+<td>拓扑保护（无背散射）</td>
+</tr>
+<tr>
+<td><strong>量子化的物理量</strong></td>
+<td>无</td>
+<td>量子化霍尔电导</td>
+</tr>
+<tr>
+<td><strong>对称性保护</strong></td>
+<td>无</td>
+<td>时间反演对称性（Z₂ TI）</td>
+</tr>
+<tr>
+<td><strong>结构特征</strong></td>
+<td>平凡能带结构</td>
+<td>能带反转或拓扑非平凡缠绕</td>
+</tr>
+<tr>
+<td><strong>电子输运</strong></td>
+<td>无导电通道</td>
+<td>边缘/表面态导电</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5.4 Berry 相 vs 动力学相</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Berry 相（几何/拓扑相）</th>
+<th>动力学相</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>起源</strong></td>
+<td>参数空间的几何性质（曲率）</td>
+<td>能量随时间积累：<span class="inline-formula">(e^{-iEt/\hbar})</span></td>
+</tr>
+<tr>
+<td><strong>依赖因素</strong></td>
+<td>闭合路径的形状（拓扑）</td>
+<td>能量大小和演化时间</td>
+</tr>
+<tr>
+<td><strong>参数变化速度</strong></td>
+<td>不依赖（只需绝热）</td>
+<td>依赖</td>
+</tr>
+<tr>
+<td><strong>规范不变性</strong></td>
+<td>是（可观测）</td>
+<td>是（但含时）</td>
+</tr>
+<tr>
+<td><strong>数学形式</strong></td>
+<td><span class="inline-formula">(\gamma = \oint i\langle u</td>
+<td>\nabla_R u\rangle \cdot dR)</span></td>
+</tr>
+<tr>
+<td><strong>应用</strong></td>
+<td>QHE, 拓扑绝缘体, 极化, 反常速度</td>
+<td>量子振荡, 干涉</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5.5 2D 拓扑绝缘体 vs 3D 拓扑绝缘体</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>2D 拓扑绝缘体</th>
+<th>3D 拓扑绝缘体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>导电通道维度</strong></td>
+<td>1D 边缘态（helical edge state）</td>
+<td>2D 表面态（Dirac cone）</td>
+</tr>
+<tr>
+<td><strong>拓扑不变量</strong></td>
+<td>Z₂ (0 or 1)</td>
+<td>Z₂ (4个指标: <span class="inline-formula">(\nu_0; \nu_1\nu_2\nu_3)</span>)</td>
+</tr>
+<tr>
+<td><strong>强/弱分类</strong></td>
+<td>只有一种</td>
+<td>强TI（<span class="inline-formula">(\nu_0=1)</span>）和弱TI（<span class="inline-formula">(\nu_0=0)</span>）</td>
+</tr>
+<tr>
+<td><strong>原型材料</strong></td>
+<td>HgTe/CdTe QW, Kane-Mele graphene</td>
+<td>Bi₂Se₃, Bi₂Te₃</td>
+</tr>
+<tr>
+<td><strong>探测手段</strong></td>
+<td>量子输运（边缘态电导）</td>
+<td>ARPES（表面能带）, STM</td>
+</tr>
+<tr>
+<td><strong>自旋纹理</strong></td>
+<td>螺旋边缘态（自旋-动量锁定）</td>
+<td>螺旋表面态（自旋-动量锁定）</td>
+</tr>
+<tr>
+<td><strong>实验验证</strong></td>
+<td>Science 318, 767 (2007)</td>
+<td>Nature Phys. 5, 438 (2009)</td>
+</tr>
+<tr>
+<td><strong>Hall效应</strong></td>
+<td>量子自旋Hall效应</td>
+<td>半整数量子Hall效应</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5.6 其他易混淆概念</h2>
+<table>
+<thead>
+<tr>
+<th>对比</th>
+<th>Concept A</th>
+<th>Concept B</th>
+<th>关键区别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QSH vs QVH vs QAH</td>
+<td>量子自旋Hall (TRS保护)</td>
+<td>量子谷Hall (反演破缺)</td>
+<td>量子反常Hall (TRS破缺)</td>
+</tr>
+<tr>
+<td>Dirac vs Weyl vs Nodal-line</td>
+<td>四重简并Dirac点</td>
+<td>二重简并Weyl点</td>
+<td>连续简并节点线</td>
+</tr>
+<tr>
+<td>Type-I vs Type-II Weyl</td>
+<td>正常Weyl锥</td>
+<td>倾斜Weyl锥（打破Lorentz）</td>
+<td>能谱倾斜方向</td>
+</tr>
+</tbody>
+</table>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-6">
+  <div class="module-header">
+    <span class="icon">📄</span><span class="title">模块 6：一页纸终极总结</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>第四章 维度 — 考前速览（~500字）</h2>
+<h3><span class="p0-tag">P0</span> 必杀技</h3>
+<p><strong>4.1 量子霍尔效应</strong>
+- <strong>IQHE</strong>：<span class="inline-formula">(R_H = h/(ie^2))</span>（整数平台），单粒子Landau能级量子化 → 扩展态/局域态 → 平台
+- <strong>FQHE</strong>：<span class="inline-formula">(\nu = 1/m)</span>（分数平台），Laughlin波函数 <span class="inline-formula">(\Psi = \prod(z_i-z_j)^m\exp(-\sum|z|^2/4l_c^2))</span>，多体关联能隙
+- 核心区别：IQHE能隙=单粒子，FQHE能隙=多体；CF模型：FQHE=CF在有效磁场下的IQHE</p>
+<p><strong>4.2 拓扑（</strong> <strong>全章绝对重点）</strong>
+- <strong>Berry相</strong>：<span class="inline-formula">(\gamma = \oint i\langle u|\nabla u\rangle\cdot dR)</span>，几何相位，规范不变
+- <strong>Chern数</strong>：<span class="inline-formula">(C = (1/2\pi)\int_{\text{BZ}}\Omega(k)d^2k)</span>，<span class="inline-formula">(\sigma_{xy} = (e^2/h)C)</span>
+- <strong>Z₂ TI</strong>：<span class="inline-formula">(\nu = 0,1)</span>，时间反演对称保护，helical edge state，无背散射
+- <strong>QAHE</strong>：TRS破缺 + TI + 磁性 → 零场QHE
+- <strong>体-边对应</strong>：缠绕数=边缘态数目</p>
+<p><strong>4.3 K-T 相变</strong>
+- 2D XY模型：涡旋束缚对 <span class="inline-formula">(\xrightarrow{T&gt;T_c})</span> 解束缚
+- <span class="inline-formula">(T_c = \pi J/(2k_B))</span>，准长程序，无穷级相变</p>
+<p><strong>4.4 Peierls/CDW/SDW</strong>
+- Peierls：半满能带一维晶格二聚化 → 能隙打开
+- CDW：<span class="inline-formula">(\rho(x) = n_0 + n_c\cos(2\pi x/\lambda + \varphi))</span>
+- SDW：自旋↑/↓位相不同 → 自旋密度调制</p>
+<h3>📐 核心公式</h3>
+<table>
+<thead>
+<tr>
+<th>公式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="inline-formula">(\sigma_{xy} = -nec/B)</span></td>
+<td>经典霍尔电导</td>
+</tr>
+<tr>
+<td><span class="inline-formula">(\varepsilon_i = (i+1/2)\hbar\omega_c)</span></td>
+<td>Landau能级</td>
+</tr>
+<tr>
+<td><span class="inline-formula">(\gamma = \oint A\cdot dR)</span></td>
+<td>Berry相</td>
+</tr>
+<tr>
+<td><span class="inline-formula">(C = (1/2\pi)\int \Omega\ d^2k)</span></td>
+<td>Chern数</td>
+</tr>
+<tr>
+<td><span class="inline-formula">(T_c = \pi J/(2k_B))</span></td>
+<td>K-T相变温度</td>
+</tr>
+<tr>
+<td><span class="inline-formula">(\rho(x) = n_0+n_c\cos(2\pi x/\lambda+\varphi))</span></td>
+<td>CDW</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠️ 混淆点</h3>
+<ol>
+<li><strong>IQHE vs FQHE</strong>：能隙来源不同（单粒子 vs 多体）</li>
+<li><strong>CDW vs SDW</strong>：相位关系 <span class="inline-formula">(\varphi_\uparrow - \varphi_\downarrow)</span> 决定</li>
+<li><strong>QSH vs QVH vs QAH</strong>：保护的对称性不同</li>
+</ol>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-7">
+  <div class="module-header">
+    <span class="icon">🃏</span><span class="title">模块 7：Anki 卡片（TSV 格式）</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<pre><code class="language-tsv">&quot;assp4::维度::4.1&quot;,&quot;Q: IQHE 霍尔电阻平台的公式是什么？&quot;,&quot;A: R_H = h/(ie^2)，i为整数（填满的Landau能级数）。当Fermi能级位于Landau能级间隙时出现平台。 来源：Slide 16&quot;,&quot;P0 formula&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: IQHE 和 FQHE 的能隙来源有什么根本区别？&quot;,&quot;A: IQHE的能隙来源于单粒子Landau能级在强磁场中的量子化；FQHE的能隙来源于多体关联效应。 来源：Slide 31&quot;,&quot;P0 confuse&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: Laughlin 波函数的形式是什么？适用于什么体系？&quot;,&quot;A: Ψ = ∏(z_i-z_j)^m exp(-∑|z_k|^2/4l_c^2)，适用于ν=1/m的FQHE态（m为奇数）。 来源：Slide 29&quot;,&quot;P0 formula&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: 什么是复合费米子？&quot;,&quot;A: 一个复合费米子由一个电子和偶数个磁通线构成。FQHE是复合费米子在有效磁场下的IQHE。复合费米子具有整数电荷。 来源：Slide 32&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: 量子霍尔效应的电阻标准值是多少？&quot;,&quot;A: h/e^2 = 25812.806 Ω，自1990年起作为电阻标准，精度约2×10^-8。 来源：Slide 22&quot;,&quot;P0 fact&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: 方势阱和抛物线势限制下子带能量的公式分别是什么？&quot;,&quot;A: 方势阱：ε_n = n²π²ℏ²/(2mW²)；抛物线势：ε_n = (n-1/2)ℏω₀。 来源：Slide 2&quot;,&quot;P1 formula&quot;
+&quot;assp4::维度::4.1&quot;,&quot;Q: GaAs-AlGaAs异质结中二维电子气的典型迁移率和平均自由程是多少？&quot;,&quot;A: 迁移率10⁴~10⁶ cm²/V·s，弹性散射平均自由程10²~10⁴ nm。 来源：Slide 5&quot;,&quot;P1 fact&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: Berry相的定义公式是什么？它有什么核心性质？&quot;,&quot;A: γ = ∮_C i⟨u(R)|∇_R|u(R)⟩·dR。核心性质：规范不变性、几何性质（路径形状决定）、拓扑性质（与路径变化率无关）。 来源：Slide 55-72&quot;,&quot;P0 definition&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: Chern数的定义及其与量子霍尔电导的关系是什么？&quot;,&quot;A: C = (1/2π)∫_{BZ} Ω(k) d²k，σ_xy = (e²/h)·C（TKNN公式）。Chern数是整数拓扑不变量。 来源：Slide 73-76&quot;,&quot;P0 formula&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: 什么是体-边对应（bulk-boundary correspondence）？&quot;,&quot;A: 体系体态的拓扑不变量（如缠绕数、Chern数）等于其边缘上拓扑保护边缘态的数目。例如SSH模型中缠绕数=边缘态数目。 来源：Slide 53&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: 2D拓扑绝缘体的Z₂拓扑不变量有什么物理含义？&quot;,&quot;A: Z₂ = 0（平庸绝缘体，偶数条边缘态能带穿过Fermi能级）或1（拓扑绝缘体，奇数条）。受时间反演对称性保护，边缘态无背散射。 来源：Slide 84-85&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: Kane-Mele模型中石墨烯如何成为二维拓扑绝缘体？&quot;,&quot;A: 通过内禀自旋-轨道耦合(λ_SO)在Dirac点打开拓扑非平庸能隙（Z₂=1），产生helical edge states。但石墨烯中SOC能隙极小（2λ_I~20-50 μeV）。 来源：Slide 89-91&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: QAHE（量子反常霍尔效应）的实现条件是什么？&quot;,&quot;A: (1)拓扑绝缘体薄膜，适当厚度；(2)磁性掺杂产生垂直磁各向异性 → 铁磁绝缘体；(3)调节化学势至能隙中。无需外磁场。 来源：Slide 139&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: 3D拓扑绝缘体Bi₂Se₃的拓扑表面态有哪些特征？&quot;,&quot;A: (1)受时间反演对称保护的2D表面Dirac锥；(2)螺旋自旋纹理（自旋-动量锁定）；(3)可通过ARPES和STM探测。 来源：Slide 142-145&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: 什么是拓扑半金属的三种主要类型？&quot;,&quot;A: (1)Dirac半金属（4重简并Dirac锥）；(2)Weyl半金属（2重简并Weyl点+Fermi弧）；(3)Nodal-line半金属（连续简并线）。体态无能隙但拓扑非平庸。 来源：Slide 152&quot;,&quot;P1 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: Berry相与动力学相有什么区别？&quot;,&quot;A: Berry相是几何/拓扑相位（参数空间闭合路径）γ=∮A·dR，不依赖演化速率；动力学相是能量随时间积累θ=-∫E(t)dt/ℏ，依赖时间和能量。 来源：Slide 63&quot;,&quot;P0 confuse&quot;
+&quot;assp4::维度::4.3&quot;,&quot;Q: K-T相变的基本物理图像是什么？&quot;,&quot;A: 2D XY模型中，低温下正负涡旋形成束缚对（准长程序），温度升高到T_c=πJ/(2k_B)时涡旋对解束缚，产生大量自由涡旋破坏拓扑长程序。无穷级相变。 来源：Slide 193-195&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.3&quot;,&quot;Q: 为什么一维体系T&gt;0时总是无序、无长程序？&quot;,&quot;A: Mermin-Wagner定理：低维体系中热涨落会破坏长程有序。1D关联函数指数衰减G(r)~e^{-r/ξ}，不存在相变。 来源：Slide 181&quot;,&quot;P1 theorem&quot;
+&quot;assp4::维度::4.4&quot;,&quot;Q: Peierls不稳定性的条件和后果是什么？&quot;,&quot;A: 条件：半满能带的一维晶格。后果：等距离原子排列不稳定，发生二聚化（周期变为2a），BZ边界与Fermi面重合，能隙打开。低温绝缘体/半导体，高温导体。 来源：Slide 201&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.4&quot;,&quot;Q: CDW和SDW的关系是什么？相位差如何决定？&quot;,&quot;A: ρ(x)=ρ↑+ρ↓（总CDW），S(x)=ρ↑-ρ↓（SDW）。φ↑=φ↓→只有CDW无SDW，φ↑=φ↓+π→只有SDW无CDW。一般情况两者共存。 来源：Slide 203&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.4&quot;,&quot;Q: CDW的波长λ由什么决定？&quot;,&quot;A: λ = 2a' = 2/k_F，只取决于电子密度（费米波矢k_F），与原晶格常数a无关。a'/a为有理数时可公度，无理数时非公度。 来源：Slide 202&quot;,&quot;P0 concept&quot;
+&quot;assp4::维度::4.2&quot;,&quot;Q: 什么是量子谷霍尔效应（QVH）？如何实现谷极化？&quot;,&quot;A: 打破反演对称性（如石墨烯加BN衬底），使K和K'谷具有相反Chern数（C_K=1, C_K'=-1）。谷极化通过圆偏振光实现：左旋光激发K谷，右旋光激发K'谷。 来源：Slide 117-119&quot;,&quot;P1 concept&quot;
+</code></pre>
+<hr />
+
+  </div>
+</section>
+<section class="module" id="module-8">
+  <div class="module-header">
+    <span class="icon">✍️</span><span class="title">模块 8：练习题</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="module-content">
+    
+<h2>选择题（共5题）</h2>
+<h3>Q1. 关于整数量子霍尔效应（IQHE），下列说法正确的是？</h3>
+<p>A. 霍尔平台出现在所有磁场强度下
+B. 能隙来源于电子-电子多体相互作用
+C. 纵向电阻 <span class="inline-formula">(\rho_{xx})</span> 在平台处为零
+D. 不需外磁场也能观测到</p>
+<p><strong>答案：C</strong></p>
+<p><strong>解析：</strong> IQHE 中霍尔平台只在特定磁场范围出现（Landau能级间隙对应 <span class="inline-formula">(\rho_{xx}=0)</span>）。能隙来源于单粒子Landau能级量子化（非多体）。需要强外磁场（非零场）。平台处纵向电阻和纵向电导同时为零。</p>
+<hr />
+<h3>Q2. 关于 Berry 相位，下列表述错误的是？</h3>
+<p>A. 是绝热循环中波函数获得的几何相位
+B. Berry 曲率在参数空间的积分等于 Chern 数
+C. 与动力学相一样依赖于系统演化的时间
+D. 具有规范不变性</p>
+<p><strong>答案：C</strong></p>
+<p><strong>解析：</strong> Berry 相不依赖演化时间（只依赖于参数空间的闭合路径），而动力学相 <span class="inline-formula">(e^{-iEt/\hbar})</span> 依赖于演化时间。A、B、D 都是 Berry 相的正确性质。</p>
+<hr />
+<h3>Q3. 对于二维 XY 模型，Kosterlitz-Thouless 相变的临界温度是？</h3>
+<p>A. <span class="inline-formula">(T_c = J/k_B)</span>
+B. <span class="inline-formula">(T_c = \pi J/(2k_B))</span>
+C. <span class="inline-formula">(T_c = 2\pi J/k_B)</span>
+D. <span class="inline-formula">(T_c = 0)</span>（不存在有限温度相变）</p>
+<p><strong>答案：B</strong></p>
+<p><strong>解析：</strong> 由单涡旋自由能 <span class="inline-formula">(F_v = J\pi\ln(L/a) - 2k_BT\ln(L/a))</span> 在 <span class="inline-formula">(F_v = 0)</span> 时得到 <span class="inline-formula">(T_c = \pi J/(2k_B))</span>。这是 KT 相变的特征温度，涡旋在此温度以上自由能为负，大量自发产生。</p>
+<hr />
+<h3>Q4. 一维 Peierls 不稳定性中，下列哪个条件必须满足？</h3>
+<p>A. 晶格必须处于半满能带状态
+B. 系统必须是三维的
+C. 必须有强电子-电子关联
+D. 费米面必须与布里渊区边界垂直</p>
+<p><strong>答案：A</strong></p>
+<p><strong>解析：</strong> Peierls 不稳定性要求能带半满，这样二聚化后的布里渊区边界（<span class="inline-formula">(k_B = 1/(2a'))</span>）恰好与费米波矢 <span class="inline-formula">(k_F)</span> 重合，打开能隙使电子能量降低。这是<strong>一维专有</strong>现象，与三维无关；不一定需要强电子关联；关键条件是 <span class="inline-formula">(k_B = k_F)</span>。</p>
+<hr />
+<h3>Q5. 关于 CDW 和 SDW，下列说法正确的是？</h3>
+<p>A. CDW 和 SDW 不能共存
+B. SDW 仅在三维体系中存在
+C. 当 <span class="inline-formula">(\varphi_\uparrow = \varphi_\downarrow)</span> 时，只有 CDW，没有 SDW
+D. CDW 的波长由晶格常数决定</p>
+<p><strong>答案：C</strong></p>
+<p><strong>解析：</strong> 当自旋↑和↓的 CDW 位相相等时，总自旋密度 <span class="inline-formula">(S(x) = \rho_\uparrow - \rho_\downarrow = 0)</span>，只有 CDW 无 SDW（见 Slide 203 公式）。A：CDW 和 SDW 完全可以共存。B：SDW 在一维电子体系中出现。D：CDW 波长 <span class="inline-formula">(\lambda = 2/k_F)</span> 只由电子密度决定，与原晶格常数无关。</p>
+<hr />
+<h2>简答题（共3题）</h2>
+<h3>Q6. 简述 IQHE 和 FQHE 的核心区别（至少3点）。</h3>
+<p><strong>答题要点：</strong>
+1. <strong>能隙来源不同</strong>：IQHE 能隙来自单粒子 Landau 能级的量子化（单电子效应）；FQHE 能隙来自多体关联效应（电子-电子相互作用）
+2. <strong>霍尔平台值不同</strong>：IQHE 为 <span class="inline-formula">(h/(ie^2))</span>（整数）；FQHE 为 <span class="inline-formula">(h/(\nu e^2))</span> 其中 <span class="inline-formula">(\nu = p/m)</span>（分数）
+3. <strong>准粒子电荷不同</strong>：IQHE 为准粒子带整数电荷；FQHE 的准粒子带分数电荷（<span class="inline-formula">(e/3)</span>, <span class="inline-formula">(e/5)</span> 等）
+4. <strong>理论描述不同</strong>：IQHE 用扩展态/局域态 + 规范变换描述；FQHE 用 Laughlin 波函数 + 复合费米子模型描述
+5. <strong>样品要求不同</strong>：FQHE 需要更高纯度和迁移率的样品（GaAs/AlGaAs 异质结）</p>
+<hr />
+<h3>Q7. 解释什么是 bulk-boundary correspondence（体-边对应），并以 SSH 模型为例说明。</h3>
+<p><strong>答题要点：</strong>
+- <strong>定义</strong>：体系的体态拓扑不变量（如缠绕数、Chern 数、Z₂ 数）等于其边界上拓扑保护的边缘态数目。
+- <strong>SSH 模型</strong>：
+  - 一维交错跃迁链，拓扑不变量是缠绕数（winding number）<span class="inline-formula">(n)</span>
+  - 缠绕数通过体态的 <span class="inline-formula">(d)</span> 矢量在 <span class="inline-formula">(d_x\text{-}d_y)</span> 平面绕原点圈数计算
+  - 非平庸相（<span class="inline-formula">(n \neq 0)</span>）：链两端各出现一个零能边缘态
+  - 平庸相（<span class="inline-formula">(n = 0)</span>）：链两端无边缘态
+  - 边缘态数目 = 缠绕数
+- <strong>一般化</strong>：对 2D TI，Chern 数 = 边缘手征通道数；对 Z₂ TI，Z₂ 奇偶性决定 helical edge state 的奇偶性
+- <strong>意义</strong>：可以用体态计算来预测边界物理性质（如边缘态数量、导电通道量子化值）</p>
+<hr />
+<h3>Q8. 一维体系发生 Peierls 不稳定性后，产生电荷密度波（CDW），请回答：（1）CDW 的数学表达式及各参数含义；（2）可公度相变与非公度相变的区别。</h3>
+<p><strong>答题要点：</strong></p>
+<p>（1）CDW 数学表达式：
+<span class="inline-formula">(\rho(x) = n_0 + n_c \cos\left(\frac{2\pi x}{\lambda} + \varphi\right))</span>
+- <span class="inline-formula">(n_0)</span>：平均电子密度
+- <span class="inline-formula">(n_c)</span>：密度起伏的幅度
+- <span class="inline-formula">(\lambda = 2a')</span>：CDW 波长（超晶格周期的两倍）
+- <span class="inline-formula">(\varphi)</span>：初位相
+- 其中 <span class="inline-formula">(\lambda = 2/k_F)</span>，只由电子密度决定</p>
+<p>（2）可公度 vs 非公度：
+- <strong>可公度相变</strong>：<span class="inline-formula">(a'/a =)</span> 有理数（比值是有理数），相变后的晶格整体仍具有周期性，CDW 周期与原晶格周期通约
+- <strong>非公度相变</strong>：<span class="inline-formula">(a'/a =)</span> 无理数，相变后的晶格整体无周期性，CDW 周期与原晶格周期不通约
+- 区分依赖于电子密度与晶格常数的比值</p>
+<hr />
+<h2>论述/计算题（共1题）</h2>
+<h3>Q9. 从 Berry 相位出发，论述拓扑绝缘体的理论基础，并比较 2D 拓扑绝缘体与 3D 拓扑绝缘体的异同。</h3>
+<p><strong>思路与解答要点：</strong></p>
+<h4>第一部分：Berry 相位 → Chern 数 → 拓扑分类</h4>
+<p><strong>Berry 相位基础：</strong>
+参数空间绝热循环一周，波函数获得的几何相位：
+<span class="inline-formula">(\gamma = \oint_C \boldsymbol{A}(\boldsymbol{R}) \cdot d\boldsymbol{R} = \oint_C i\langle u(\boldsymbol{R})|\nabla_{\boldsymbol{R}}|u(\boldsymbol{R})\rangle \cdot d\boldsymbol{R})</span></p>
+<p>根据 Stokes 定理可转化为 Berry 曲率的面积分：
+<span class="inline-formula">(\gamma = \int_S \boldsymbol{\Omega}(\boldsymbol{R}) \cdot d\boldsymbol{S})</span>，其中 <span class="inline-formula">(\boldsymbol{\Omega}(\boldsymbol{R}) = \nabla_{\boldsymbol{R}} \times \boldsymbol{A}(\boldsymbol{R}))</span></p>
+<p><strong>Chern 数（TKNN 不变量）：</strong>
+在 Bloch 电子体系中，参数空间是 Brillouin 区动量 <span class="inline-formula">(\boldsymbol{k})</span>：
+<span class="inline-formula">(C = \frac{1}{2\pi} \int_{\text{BZ}} \boldsymbol{\Omega}(\boldsymbol{k})\ d^2k)</span></p>
+<p>Chern 数是整数拓扑不变量，在体能隙不关闭的绝热变形下不变。量子霍尔电导：
+<span class="inline-formula">(\sigma_{xy} = \frac{e^2}{h} \cdot C)</span></p>
+<h4>第二部分：时间反演对称与 Z₂ 拓扑绝缘体</h4>
+<p>对于时间反演对称的系统，总 Chern 数 <span class="inline-formula">(C = 0)</span>，需要用 Z₂ 分类。</p>
+<p><strong>Z₂ 不变量 (<span class="inline-formula">(\nu = 0, 1)</span>)：</strong>
+- 时间反演对称性 → Kramers 简并 → TRIM 点
+- 自旋守恒时：<span class="inline-formula">(Z_2 = \text{mod}(C_{\text{up}}, 2))</span>
+- 反演对称时：从 TRIM 的 Parity 计算</p>
+<p><strong>物理含意：</strong>
+- <span class="inline-formula">(\nu = 0)</span>：平庸绝缘体（偶数条边缘态能带穿过 EF）
+- <span class="inline-formula">(\nu = 1)</span>：拓扑绝缘体（奇数条边缘态能带穿过 EF）
+- 螺旋边缘态：自旋与动量锁定，拓扑保护，无背散射
+- 不能通过连续形变变成原子绝缘体</p>
+<h4>第三部分：2D vs 3D 拓扑绝缘体对比</h4>
+<p><strong>相同点：</strong>
+1. 都由拓扑不变量分类（Z₂）
+2. 都有受时间反演对称保护的无能隙边界态
+3. 都有自旋-动量锁定的螺旋结构
+4. 边界态都不受背散射影响</p>
+<p><strong>不同点：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>2D TI</th>
+<th>3D TI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>边界态维度</td>
+<td>1D 边缘态</td>
+<td>2D 表面态</td>
+</tr>
+<tr>
+<td>Z₂ 指标</td>
+<td>1个 (<span class="inline-formula">(\nu)</span>)</td>
+<td>4个 (<span class="inline-formula">(\nu_0; \nu_1\nu_2\nu_3)</span>)</td>
+</tr>
+<tr>
+<td>强/弱</td>
+<td>单一</td>
+<td>强TI (<span class="inline-formula">(\nu_0=1)</span>) / 弱TI (<span class="inline-formula">(\nu_0=0)</span>)</td>
+</tr>
+<tr>
+<td>探测</td>
+<td>边缘态电导（量子输运）</td>
+<td>表面态能带（ARPES, STM）</td>
+</tr>
+<tr>
+<td>原型</td>
+<td>HgTe/CdTe QW, 石墨烯+SOC</td>
+<td>Bi₂Se₃, Bi₂Te₃</td>
+</tr>
+<tr>
+<td>量子Hall</td>
+<td>量子自旋Hall (QSHE)</td>
+<td>半整数量子Hall (top/bottom surface)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>计算推导示例（以 2D Kane-Mele 模型为例）：</strong></p>
+<p>Kane-Mele 哈密顿量核心部分：
+<span class="inline-formula">(H_{SO} = i\lambda_{SO} \sum_{\langle\langle i,j\rangle\rangle} \nu_{ij} s^z c_i^\dagger c_j)</span></p>
+<p>在 Dirac 点展开（<span class="inline-formula">(K, K')</span> 附近）：
+<span class="inline-formula">(H_K = \hbar v_F (\tau_z k_x \sigma_x + k_y \sigma_y) + \lambda_{SO} \tau_z \sigma_z s_z)</span></p>
+<p>其中 <span class="inline-formula">(\tau_z)</span> 标记谷，<span class="inline-formula">(\sigma_z)</span> 标记子格，<span class="inline-formula">(s_z)</span> 标记自旋。</p>
+<p>Berry curvature 计算（对于 <span class="inline-formula">(K)</span> 谷、自旋↑ 的价带）：
+<span class="inline-formula">(\Omega_{K\uparrow}(k) = \frac{\lambda_{SO} v_F^2}{2[(\hbar v_F k)^2 + \lambda_{SO}^2]^{3/2}})</span></p>
+<p>Chern 数求和：<span class="inline-formula">(C_K = \frac{1}{2\pi}\int \Omega_{K\uparrow} d^2k + \frac{1}{2\pi}\int \Omega_{K\downarrow} d^2k = 1 + (-1) = 0)</span></p>
+<p>自旋 Chern 数：<span class="inline-formula">(C_{\text{spin}} = \frac{1}{2\pi}\int (\Omega_{\uparrow} - \Omega_{\downarrow}) d^2k)</span>
+<span class="inline-formula">(= \frac{1}{2}(1-0) = 1)</span> （归一化后，<span class="inline-formula">(Z_2 = 1)</span>）</p>
+<p>因此体系是拓扑非平庸的（Z₂ = 1），边缘将出现 helical edge states。</p>
+<hr />
+<h1>附录：使用说明</h1>
+<h2>导航</h2>
+<ul>
+<li><strong>模块 1-2</strong>：全局概览 — 考前 1 小时快速浏览</li>
+<li><strong>模块 3</strong>：核心知识点 — 系统复习主力</li>
+<li><strong>模块 4</strong>：公式速查 — 做题时快速查找</li>
+<li><strong>模块 5</strong>：对比辨析 — 突破混淆点</li>
+<li><strong>模块 6</strong>：一页纸 — 进考场前 5 分钟</li>
+<li><strong>模块 7</strong>：Anki 卡片 — 导入 Anki 碎片化记忆</li>
+<li><strong>模块 8</strong>：练习题 — 自测检验</li>
+</ul>
+<h2>优先级标记</h2>
+<ul>
+<li>🔴 <strong>P0</strong>：必考核心</li>
+<li>🟡 <strong>P1</strong>：重要理解</li>
+<li>无标记：P2 补充了解</li>
+</ul>
+<h2>补充说明</h2>
+<ul>
+<li>所有标注 [提取不完整，请核对原PPT] 的公式来自 PDF 提取过程中的模糊文本，建议核对原始 PPT 确认细节</li>
+<li>Slide 4, 15, 17-18, 20, 27-28, 33-37, 39, 78-81, 186, 188-189, 204 等为纯图像或无提取文本的页面</li>
+<li>4.2 节为全章篇幅最重部分（~140页，占全章~50% 权重），建议重点投入</li>
+</ul>
+  </div>
+</section>
+</main>
+
+<script>
+(function() {
+  // Collapsible modules
+  document.querySelectorAll('.module-header').forEach(header => {
+    header.addEventListener('click', function() {
+      const module = this.parentElement;
+      const content = module.querySelector('.module-content');
+      const isCollapsed = module.classList.toggle('collapsed');
+      content.style.display = isCollapsed ? 'none' : '';
+    });
+  });
+
+  // Expand all / collapse all buttons
+  const nav = document.querySelector('.toc ul');
+  if (nav) {
+    const controls = document.createElement('div');
+    controls.style.cssText = 'margin-top:8px; display:flex; gap:8px;';
+    controls.innerHTML = `
+      <button class="no-print" onclick="expandAll()"
+        style="padding:4px 14px;border:1px solid #dde2e8;border-radius:6px;
+               background:#fff;cursor:pointer;font-size:13px;">展开全部</button>
+      <button class="no-print" onclick="collapseAll()"
+        style="padding:4px 14px;border:1px solid #dde2e8;border-radius:6px;
+               background:#fff;cursor:pointer;font-size:13px;">折叠全部</button>`;
+    nav.parentElement.appendChild(controls);
+  }
+
+  window.expandAll = function() {
+    document.querySelectorAll('.module').forEach(m => {
+      m.classList.remove('collapsed');
+      const c = m.querySelector('.module-content');
+      if (c) c.style.display = '';
+    });
+  };
+  window.collapseAll = function() {
+    document.querySelectorAll('.module').forEach(m => {
+      m.classList.add('collapsed');
+      const c = m.querySelector('.module-content');
+      if (c) c.style.display = 'none';
+    });
+  };
+
+  // Collapse all modules by default except first
+  document.querySelectorAll('.module').forEach((m, i) => {
+    if (i > 0) {
+      m.classList.add('collapsed');
+      const c = m.querySelector('.module-content');
+      if (c) c.style.display = 'none';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

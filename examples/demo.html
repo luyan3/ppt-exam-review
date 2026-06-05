@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ppt-exam-review Demo — 宏观经济学</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false},
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC",
+                 "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 15px; line-height: 1.7; color: #1a1a2e;
+    background: #f4f6f9;
+  }
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 240px; background: #1a1a2e; color: #cdd6f4;
+    overflow-y: auto; z-index: 100;
+    display: flex; flex-direction: column;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+  }
+  .sidebar-header {
+    padding: 20px 18px 14px; border-bottom: 1px solid #2a2a4e; flex-shrink: 0;
+  }
+  .sidebar-header h2 { font-size: 14px; font-weight: 700; color: #f0f4ff; letter-spacing: 1px; }
+  .sidebar-header .badge { font-size: 11px; color: #8892b0; margin-top: 4px; }
+  .sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+  .sidebar-nav a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 18px; color: #8892b0; text-decoration: none;
+    font-size: 13px; transition: all 0.15s; border-left: 3px solid transparent;
+  }
+  .sidebar-nav a:hover { color: #f0f4ff; background: #2a2a4e; }
+  .sidebar-nav a.active { color: #fff; background: #2a2a4e; border-left-color: #58a6ff; font-weight: 600; }
+  .sidebar-nav a .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #2a2a4e; font-size: 11px; flex-shrink: 0;
+  }
+  .sidebar-nav a.active .num { background: #58a6ff; color: #1a1a2e; }
+  .sidebar-footer {
+    padding: 10px 14px; border-top: 1px solid #2a2a4e; flex-shrink: 0;
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .sidebar-footer button {
+    flex: 1; padding: 5px 0; border: 1px solid #3a3a5e; border-radius: 6px;
+    background: transparent; color: #8892b0; cursor: pointer;
+    font-size: 11px; transition: all 0.15s; min-width: 60px;
+  }
+  .sidebar-footer button:hover { background: #2a2a4e; color: #f0f4ff; }
+
+  /* ── Main ── */
+  .main { flex: 1; margin-left: 240px; padding: 24px 32px; max-width: 960px; }
+
+  .review-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff; border-radius: 12px; padding: 28px 32px; margin-bottom: 20px;
+  }
+  .review-header h1 { font-size: 22px; margin-bottom: 4px; letter-spacing: 1px; }
+  .review-header .sub { font-size: 13px; opacity: 0.7; }
+  .review-header .tag {
+    display: inline-block; background: rgba(255,255,255,0.12);
+    padding: 2px 10px; border-radius: 20px; font-size: 12px; margin-top: 6px;
+  }
+  .review-header .tag em { font-style: normal; color: #ffd700; }
+
+  /* ── Modules ── */
+  .module {
+    background: #fff; border-radius: 10px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .module-header {
+    padding: 13px 22px; cursor: pointer; user-select: none;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.15s;
+  }
+  .module-header:hover { background: #f8f9fc; }
+  .module-header .icon { font-size: 17px; margin-right: 8px; }
+  .module-header .title { font-weight: 600; font-size: 15px; color: #1a1a2e; }
+  .module-header .arrow { transition: transform 0.2s; font-size: 12px; color: #999; }
+  .module.collapsed .module-header .arrow { transform: rotate(-90deg); }
+  .module.collapsed .module-content { display: none; }
+  .module-content { padding: 0 22px 18px; }
+
+  .p0-tag, .p1-tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    padding: 1px 8px; border-radius: 10px; margin-right: 5px;
+    vertical-align: middle;
+  }
+  .p0-tag { background: #dc3545; color: #fff; }
+  .p1-tag { background: #fd7e14; color: #fff; }
+
+  .module-content h3, .module-content h4 { margin-top: 16px; margin-bottom: 6px; }
+  .katex-block {
+    background: #f0f4ff; padding: 8px 14px; border-radius: 6px;
+    margin: 8px 0; overflow-x: auto; border: 1px solid #dde6f5;
+  }
+  .module-content table {
+    width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px;
+  }
+  .module-content th {
+    background: #eef2f7; padding: 7px 11px; text-align: left;
+    font-weight: 600; border: 1px solid #dde2e8;
+  }
+  .module-content td { padding: 7px 11px; border: 1px solid #dde2e8; }
+  .module-content tr:nth-child(even) { background: #fafbfc; }
+  .module-content pre {
+    background: #1e1e2e; color: #cdd6f4; padding: 12px 16px;
+    border-radius: 8px; overflow-x: auto; font-size: 13px;
+    line-height: 1.5; margin: 8px 0;
+  }
+  .module-content code { font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace; }
+  .module-content blockquote {
+    border-left: 3px solid #8b949e; padding: 5px 13px; margin: 6px 0;
+    color: #57606a; background: #f6f8fa; border-radius: 0 4px 4px 0;
+  }
+  .module-content ul, .module-content ol { padding-left: 22px; margin: 6px 0; }
+  .module-content li { margin-bottom: 3px; }
+  .module-content hr { border: none; border-top: 1px solid #e4e7ed; margin: 16px 0; }
+
+  .demo-banner {
+    background: #f0f4ff; border: 1px dashed #58a6ff; border-radius: 10px;
+    padding: 16px 22px; margin-bottom: 14px; font-size: 13px; color: #0f3460;
+  }
+  .demo-banner strong { color: #dc3545; }
+
+  @media print {
+    .sidebar { display: none !important; }
+    .main { margin-left: 0 !important; padding: 0 !important; }
+    .module { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .no-print { display: none !important; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 12px 10px; }
+    .review-header { padding: 18px 16px; }
+    .review-header h1 { font-size: 18px; }
+    .module-content { padding: 0 14px 14px; }
+    .module-header { padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2>复习导航</h2>
+    <div class="badge">P0 考点: 12 | P1 概念: 8 | 公式: 18</div>
+  </div>
+  <nav class="sidebar-nav" id="toc">
+    <a href="#module-1" class="active"><span class="num">1</span>🎯 考试情报卡</a>
+    <a href="#module-2"><span class="num">2</span>🗺 章节导航图</a>
+    <a href="#module-3"><span class="num">3</span>📝 核心知识点精编</a>
+    <a href="#module-4"><span class="num">4</span>📐 公式/定理速查表</a>
+    <a href="#module-5"><span class="num">5</span>🔄 对比辨析表</a>
+    <a href="#module-6"><span class="num">6</span>📄 一页纸终极总结</a>
+    <a href="#module-7"><span class="num">7</span>🃏 Anki 卡片</a>
+    <a href="#module-8"><span class="num">8</span>✍️ 练习题</a>
+  </nav>
+  <div class="sidebar-footer no-print">
+    <button onclick="expandAll()">展开全部</button>
+    <button onclick="collapseAll()">折叠全部</button>
+  </div>
+</aside>
+
+<div class="main">
+
+  <header class="review-header">
+    <h1>宏观经济学 · 期末复习</h1>
+    <div class="sub">来源：Macroeconomics_Review.pptx | 40 Slides | 6 章节</div>
+    <div class="tag">⭐ 这是 <em>ppt-exam-review</em> 生成的 HTML 示例输出</div>
+  </header>
+
+  <div class="demo-banner no-print">
+    💡 <strong>Demo</strong>  — 这是 ppt-exam-review 生成的复习页面效果。
+    侧边栏点击跳转模块 · KaTeX 渲染公式 · 模块可折叠 · 支持 Ctrl+P 打印。
+    用 <code>to_html.py review.md -o page.html --open</code> 生成你自己的。
+  </div>
+
+  <main>
+
+    <!-- ═════════ Module 1 ═════════ -->
+    <section class="module" id="module-1">
+      <div class="module-header">
+        <span><span class="icon">🎯</span><span class="title">模块 1：考试情报卡</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <table>
+          <tr><th>项目</th><th>内容</th></tr>
+          <tr><td>课程</td><td>宏观经济学（Macroeconomics）</td></tr>
+          <tr><td>章节数</td><td>6 章</td></tr>
+          <tr><td>总页数</td><td>40 Slides</td></tr>
+          <tr><td>明确标记重点</td><td>17 处（必考/重点/注意）</td></tr>
+        </table>
+
+        <h4>章节权重分布</h4>
+        <table>
+          <tr><th>章节</th><th>页数</th><th>P0重点</th><th>预估权重</th></tr>
+          <tr><td>第1章 国民收入核算</td><td>6</td><td>3</td><td>~15%</td></tr>
+          <tr><td>第2章 简单国民收入决定</td><td>8</td><td>5</td><td>~25%</td></tr>
+          <tr><td>第3章 IS-LM模型</td><td>10</td><td>6</td><td>~30%</td></tr>
+          <tr><td>第4章 AD-AS模型</td><td>8</td><td>4</td><td>~20%</td></tr>
+          <tr><td>第5章 失业与通货膨胀</td><td>5</td><td>2</td><td>~10%</td></tr>
+          <tr><td>第6章 经济增长</td><td>3</td><td>0</td><td>~5%</td></tr>
+        </table>
+
+        <h4>题型预测</h4>
+        <table>
+          <tr><th>题型</th><th>适用章节</th><th>频次</th></tr>
+          <tr><td>选择题（概念辨析）</td><td>第1-5章</td><td>高频</td></tr>
+          <tr><td>简答题（定义/机制）</td><td>第2-4章</td><td>高频</td></tr>
+          <tr><td>计算/推导题</td><td>第2-3章（乘数/IS-LM均衡）</td><td>中频</td></tr>
+        </table>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 2 ═════════ -->
+    <section class="module" id="module-2">
+      <div class="module-header">
+        <span><span class="icon">🗺</span><span class="title">模块 2：章节导航图</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <pre><code>宏观经济学 (Slide 1-40)  [P0×12, P1×8]
+│
+├── 第1章 国民收入核算 (Slides 2-7)  [P0×3]
+│   ├── GDP定义与三种核算方法 · P0
+│   ├── GDP vs GNP · P0
+│   └── 名义GDP vs 实际GDP · P1
+│
+├── 第2章 简单国民收入决定 (Slides 8-15)  [P0×5]
+│   ├── 消费函数与储蓄函数 · P1
+│   ├── 乘数效应 · P0
+│   ├── 三部门/四部门均衡 · P0
+│   └── 乘数公式推导 · P0
+│
+├── 第3章 IS-LM模型 (Slides 16-25)  [P0×6]  ◀ 绝对重点
+│   ├── IS曲线推导 · P0
+│   ├── LM曲线推导 · P0
+│   ├── IS-LM均衡分析 · P0
+│   └── 财政/货币政策效果 · P0
+│
+├── 第4章 AD-AS模型 (Slides 26-33)  [P0×4]
+│   ├── AD曲线 · P0
+│   ├── AS曲线（短期/长期）· P0
+│   └── 宏观经济均衡 · P1
+│
+├── 第5章 失业与通货膨胀 (Slides 34-38)  [P0×2]
+│   └── 菲利普斯曲线 · P0
+│
+└── 第6章 经济增长 (Slides 39-40)  [P1×2]
+</code></pre>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 3 ═════════ -->
+    <section class="module" id="module-3">
+      <div class="module-header">
+        <span><span class="icon">📝</span><span class="title">模块 3：核心知识点精编</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <h3><span class="p0-tag">P0</span>GDP的三种核算方法</h3>
+        <p><strong>来源：</strong> Slide 3-5</p>
+        <blockquote>GDP 是指经济社会在一定时期内运用生产要素所生产的<strong>全部最终产品（物品和劳务）的市场价值</strong>。</blockquote>
+        <p><strong>通俗理解：</strong>一个国家一年内"造出来的所有东西的总价"，只算最终产品，中间产品不计入。</p>
+
+        <h4>考试形态</h4>
+        <table>
+          <tr><th>题型</th><th>常见问法</th></tr>
+          <tr><td>选择</td><td>下列哪项不计入 GDP？</td></tr>
+          <tr><td>简答</td><td>简述 GDP 三种核算方法及其关系</td></tr>
+          <tr><td>计算</td><td>给定数据用支出法计算 GDP</td></tr>
+        </table>
+
+        <h4>易错警示</h4>
+        <ul>
+          <li>❌ <strong>GDP vs GNP</strong>：GDP看"在哪里生产"，GNP看"谁生产的"</li>
+          <li>❌ <strong>二手交易</strong>：二手商品不计入当年GDP（已计入生产年份）</li>
+          <li>❌ <strong>存货投资</strong>：生产但没卖出去的也算在GDP中</li>
+        </ul>
+
+        <hr>
+
+        <h3><span class="p0-tag">P0</span>乘数效应</h3>
+        <p><strong>来源：</strong> Slide 12-14</p>
+        <blockquote>乘数（Multiplier）是指自发总支出的增加所引起的国民收入增加的倍数。</blockquote>
+
+        <h4>核心公式</h4>
+        <div class="katex-block">\[
+        k = \frac{\Delta Y}{\Delta A} = \frac{1}{1-MPC}
+        \]</div>
+
+        <table>
+          <tr><th>乘数类型</th><th>公式</th><th>说明</th></tr>
+          <tr><td>投资乘数</td><td>\(k_i = 1/(1-MPC)\)</td><td>MPC = 边际消费倾向</td></tr>
+          <tr><td>政府支出乘数</td><td>\(k_G = 1/(1-MPC)\)</td><td>与投资乘数相同</td></tr>
+          <tr><td>税收乘数</td><td>\(k_T = -MPC/(1-MPC)\)</td><td>绝对值小于支出乘数</td></tr>
+          <tr><td>平衡预算乘数</td><td>\(k_B = 1\)</td><td>G = T 时成立</td></tr>
+        </table>
+
+        <p><strong>易错：</strong> \(k_T = k_G - 1\)（税收乘数永远比政府支出乘数小1）</p>
+
+        <hr>
+
+        <h3><span class="p0-tag">P0</span>IS-LM模型</h3>
+        <p><strong>来源：</strong> Slide 18-22</p>
+        <blockquote>IS曲线：产品市场均衡（投资=储蓄），利率与产出负相关。<br>
+        LM曲线：货币市场均衡（货币需求=货币供给），利率与产出正相关。</blockquote>
+
+        <div class="katex-block">\[
+        \text{IS: } Y = C(Y-T) + I(r) + G \qquad
+        \text{LM: } \frac{M}{P} = L(Y,r)
+        \]</div>
+
+        <p><strong>考试要点：</strong>IS-LM交点 = 产品市场+货币市场同时均衡。财政政策移动IS，货币政策移动LM。</p>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 4 ═════════ -->
+    <section class="module" id="module-4">
+      <div class="module-header">
+        <span><span class="icon">📐</span><span class="title">模块 4：公式/定理速查表</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <table>
+          <tr><th>#</th><th>公式</th><th>说明</th><th>来源</th></tr>
+          <tr><td>F1</td><td>\(Y = C + I + G + NX\)</td><td>支出法恒等式</td><td>P4</td></tr>
+          <tr><td>F2</td><td>\(k = 1/(1-MPC)\)</td><td>乘数公式</td><td>P12</td></tr>
+          <tr><td>F3</td><td>\(MPC = \Delta C/\Delta Y\)</td><td>边际消费倾向</td><td>P10</td></tr>
+          <tr><td>F4</td><td>\(C = \alpha + \beta Y\)</td><td>消费函数</td><td>P10</td></tr>
+          <tr><td>F5</td><td>\(k_T = -MPC/(1-MPC)\)</td><td>税收乘数</td><td>P14</td></tr>
+          <tr><td>F6</td><td>\(k_B = 1\)</td><td>平衡预算乘数</td><td>P14</td></tr>
+          <tr><td>F7</td><td>\(IS: Y = C(Y-T)+I(r)+G\)</td><td>产品市场均衡</td><td>P18</td></tr>
+          <tr><td>F8</td><td>\(LM: M/P = L(Y,r)\)</td><td>货币市场均衡</td><td>P20</td></tr>
+          <tr><td>F9</td><td>\(PC: \pi = \pi^e - \beta(u-u^n) + v\)</td><td>菲利普斯曲线</td><td>P36</td></tr>
+          <tr><td>F10</td><td>\(MV = PY\)</td><td>货币数量方程</td><td>P30</td></tr>
+        </table>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 5 ═════════ -->
+    <section class="module" id="module-5">
+      <div class="module-header">
+        <span><span class="icon">🔄</span><span class="title">模块 5：对比辨析表</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <h4>GDP vs GNP</h4>
+        <table>
+          <tr><th>维度</th><th>GDP</th><th>GNP</th></tr>
+          <tr><td>定义</td><td>一国境内生产的最终产品价值</td><td>一国国民生产的最终产品价值</td></tr>
+          <tr><td>原则</td><td>国土原则</td><td>国民原则</td></tr>
+          <tr><td>关系</td><td colspan="2">\(GNP = GDP + \text{NFP}\)（国外净要素收入）</td></tr>
+        </table>
+
+        <hr>
+
+        <h4>名义GDP vs 实际GDP</h4>
+        <table>
+          <tr><th>维度</th><th>名义GDP</th><th>实际GDP</th></tr>
+          <tr><td>价格</td><td>当期价格</td><td>基期价格</td></tr>
+          <tr><td>变化原因</td><td>产量变化 + 价格变化</td><td>仅产量变化</td></tr>
+          <tr><td>关系</td><td colspan="2">\(名义GDP = 实际GDP \times GDP平减指数\)</td></tr>
+        </table>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 6 ═════════ -->
+    <section class="module" id="module-6">
+      <div class="module-header">
+        <span><span class="icon">📄</span><span class="title">模块 6：一页纸终极总结</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <h3>🔴 必考核心</h3>
+        <ol>
+          <li><strong>GDP核算</strong> — 支出法 Y=C+I+G+NX，三种方法关系 → P3</li>
+          <li><strong>乘数效应</strong> — \(k = 1/(1-MPC)\)，\(k_T = k_G - 1\) → P12</li>
+          <li><strong>IS-LM均衡</strong> — 产品市场+货币市场同时均衡 → P18-P22</li>
+          <li><strong>AD曲线</strong> — 向右下倾斜（财富效应、利率效应、汇率效应）→ P25</li>
+          <li><strong>菲利普斯曲线</strong> — 短期: 通胀↑失业↓；长期: 垂直 → P35</li>
+        </ol>
+
+        <h3>📐 关键公式</h3>
+        <table>
+          <tr><th>公式</th><th>说明</th></tr>
+          <tr><td>\(Y = C+I+G+NX\)</td><td>支出法恒等式</td></tr>
+          <tr><td>\(k = 1/(1-MPC)\)</td><td>乘数</td></tr>
+          <tr><td>\(IS: Y = C(Y-T)+I(r)+G\)</td><td>产品市场均衡</td></tr>
+          <tr><td>\(LM: M/P = L(Y,r)\)</td><td>货币市场均衡</td></tr>
+          <tr><td>\(\pi = \pi^e - \beta(u-u^n)\)</td><td>菲利普斯曲线</td></tr>
+        </table>
+
+        <h3>⚠️ 注意混淆点</h3>
+        <ul>
+          <li>IS左移 vs LM右移 — 效果看哪个影响更强</li>
+          <li>短期AS水平 vs 长期AS垂直 — 价格黏性假设不同</li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 7 ═════════ -->
+    <section class="module" id="module-7">
+      <div class="module-header">
+        <span><span class="icon">🃏</span><span class="title">模块 7：Anki 卡片（TSV 格式）</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <pre><code>"宏观经济学::GDP","Q: GDP的定义？","A: ...全部最终产品的市场价值","ppt-review P0"
+"宏观经济学::GDP","Q: 支出法公式？","A: Y=C+I+G+NX","ppt-review formula"
+"宏观经济学::乘数","Q: 投资乘数公式？","A: k_i = 1/(1-MPC)","ppt-review formula"
+"宏观经济学::乘数","Q: k_T与k_G的关系？","A: k_T = k_G - 1","ppt-review confuse"
+"宏观经济学::IS-LM","Q: IS曲线为什么右倾？","A: 利率↓→投资↑→产出↑","ppt-review P0"
+"宏观经济学::IS-LM","Q: LM曲线为什么左倾？","A: 收入↑→货币需求↑→利率↑","ppt-review P0"
+"宏观经济学::AD-AS","Q: AD曲线为什么右倾？","A: 财富效应+利率效应+汇率效应","ppt-review P0"
+"宏观经济学::菲利普斯","Q: 短期PC vs 长期PC？","A: 短期负相关，长期垂直","ppt-review confuse"</code></pre>
+
+      </div>
+    </section>
+
+    <!-- ═════════ Module 8 ═════════ -->
+    <section class="module" id="module-8">
+      <div class="module-header">
+        <span><span class="icon">✍️</span><span class="title">模块 8：练习题</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="module-content">
+
+        <h4>选择题</h4>
+        <p><strong>Q1.</strong> 下列哪项不计入 GDP？</p>
+        <ul>
+          <li>A. 政府购买新办公楼的支出</li>
+          <li>B. 二手车的交易价格</li>
+          <li>C. 企业存货的增加</li>
+          <li>D. 出口到国外的商品</li>
+        </ul>
+        <p><strong>答案：</strong>B</p>
+        <p><strong>解析：</strong>二手交易不产生新价值，已计入生产年份的GDP。</p>
+
+        <hr>
+
+        <h4>简答题</h4>
+        <p><strong>Q2.</strong> 简述乘数效应的作用机制，并说明为什么税收乘数绝对值小于支出乘数。</p>
+        <p><strong>答题要点：</strong></p>
+        <ul>
+          <li>自发支出增加 → 收入增加 → 消费增加 → 收入进一步增加（循环）</li>
+          <li>税收乘数：增税 → 可支配收入减少 → 消费减少（间接）</li>
+          <li>支出乘数：政府直接购买 → 直接增加总需求（直接）</li>
+          <li>所以 \(|k_T| < k_G\)</li>
+        </ul>
+
+        <hr>
+
+        <h4>计算题</h4>
+        <p><strong>Q3.</strong> 已知 C = 100 + 0.8Y<sub>d</sub>, I = 50, G = 200, T = 0.25Y, 求均衡国民收入。</p>
+        <p><strong>解题思路：</strong></p>
+        <ol>
+          <li>Y<sub>d</sub> = Y - T = 0.75Y</li>
+          <li>C = 100 + 0.8(0.75Y) = 100 + 0.6Y</li>
+          <li>Y = C + I + G = 100 + 0.6Y + 50 + 200</li>
+          <li>0.4Y = 350 → Y = 875</li>
+        </ol>
+
+      </div>
+    </section>
+
+  </main>
+
+  <p style="text-align:center;color:#8892b0;font-size:12px;margin:24px 0 8px;">
+    Generated by <a href="https://github.com/luyan3/ppt-exam-review" style="color:#0f3460;">ppt-exam-review</a>
+  </p>
+
+</div>
+
+<script>
+(function() {
+  document.querySelectorAll('.module-header').forEach(header => {
+    header.addEventListener('click', function() {
+      this.parentElement.classList.toggle('collapsed');
+    });
+  });
+
+  document.querySelectorAll('.module').forEach((m, i) => { if (i > 0) m.classList.add('collapsed'); });
+
+  // TOC highlighting
+  const observer = new IntersectionObserver(entries => {
+    let activeId = null;
+    entries.forEach(entry => { if (entry.isIntersecting && !activeId) activeId = entry.target.id; });
+    if (!activeId) {
+      let closest = null, closestDist = Infinity;
+      entries.forEach(entry => {
+        const rect = entry.target.getBoundingClientRect();
+        if (rect.top < 200 && Math.abs(rect.top) < closestDist) { closestDist = Math.abs(rect.top); closest = entry.target.id; }
+      });
+      activeId = closest;
+    }
+    document.querySelectorAll('#toc a').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + activeId);
+    });
+  }, { threshold: 0, rootMargin: '-80px 0px -60% 0px' });
+  document.querySelectorAll('.module').forEach(m => observer.observe(m));
+
+  document.querySelectorAll('#toc a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const module = document.getElementById(this.getAttribute('href').substring(1));
+      if (!module) return;
+      module.classList.remove('collapsed');
+      const header = module.querySelector('.module-header');
+      if (header) window.scrollTo({ top: header.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+    });
+  });
+
+  window.expandAll = function() { document.querySelectorAll('.module').forEach(m => m.classList.remove('collapsed')); };
+  window.collapseAll = function() { document.querySelectorAll('.module').forEach(m => m.classList.add('collapsed')); };
+})();
+</script>
+
+</body>
+</html>

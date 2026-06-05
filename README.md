@@ -111,6 +111,16 @@ When you provide ≥2 files, the skill auto-merges:
 
 ## 🖥 HTML Output
 
+<p align="center">
+  <img src="examples/screenshot-overview.png" alt="HTML output overview" width="80%" style="border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+  <br><em>Sidebar navigation + collapsible modules with P0 badges</em>
+</p>
+
+<p align="center">
+  <img src="examples/screenshot-formulas.png" alt="Formula sheet rendering" width="80%" style="border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+  <br><em>KaTeX-rendered formulas, comparison tables, and practice questions</em>
+</p>
+
 When you convert to HTML with `to_html.py`:
 
 ```

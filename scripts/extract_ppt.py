@@ -28,6 +28,10 @@ import re
 import sys
 from pathlib import Path
 
+# Fix Windows GBK console output
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 
 # ── Utilities ──────────────────────────────────────────────────────────────
 
@@ -71,6 +75,21 @@ def clean_text(text: str) -> str:
     text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', text)
     text = re.sub(r'\s+', ' ', text).strip()
     return text
+
+
+def clean_cid(text: str) -> str:
+    """Remove (cid:NNN) artifacts from formula extraction."""
+    text = re.sub(r'\(cid:\d+\)', '', text)
+    return text.strip()
+
+
+def is_garbled(text: str, threshold: float = 0.15) -> bool:
+    """Heuristic: if >threshold of chars are encoding artifacts, text is garbled."""
+    if not text or len(text) < 10:
+        return False
+    artifact_chars = sum(1 for c in text if ord(c) > 127 and c in '�□')
+    cid_hits = len(re.findall(r'\(cid:\d+\)', text))
+    return (artifact_chars / len(text) > threshold) or (cid_hits > 5)
 
 
 # ── PPTX Extraction ───────────────────────────────────────────────────────
@@ -167,8 +186,64 @@ def extract_pptx(filepath: str) -> list[dict]:
 
 # ── PDF Extraction ─────────────────────────────────────────────────────────
 
+def extract_pdf_pymupdf(filepath: str) -> list[dict]:
+    """Extract PDF content using PyMuPDF (better for CJK with CID/Identity-H encodings)."""
+    try:
+        import fitz
+    except ImportError:
+        return None  # signal to use fallback
+
+    doc = fitz.open(filepath)
+    pages_data = []
+
+    for idx, page_num in enumerate(range(len(doc)), 1):
+        page = doc[page_num]
+        page_info = {
+            "slide_number": idx,
+            "texts": [],
+            "tables": [],
+            "notes": "",
+            "shapes_count": 0,
+        }
+
+        # Extract text blocks with position info
+        blocks = page.get_text("dict", flags=fitz.TEXT_PRESERVE_WHITESPACE)["blocks"]
+        for block in blocks:
+            if block["type"] != 0:  # skip images
+                continue
+            for line in block["lines"]:
+                text_parts = []
+                max_size = 0
+                is_bold = False
+                for span in line["spans"]:
+                    text_parts.append(span["text"])
+                    max_size = max(max_size, span["size"])
+                    if span["flags"] & 2:  # bold flag
+                        is_bold = True
+
+                line_text = clean_text("".join(text_parts))
+                if not line_text:
+                    continue
+
+                level = detect_heading_level(line_text, max_size, is_bold)
+                page_info["texts"].append({
+                    "text": line_text,
+                    "level": level,
+                    "bold": is_bold,
+                })
+
+        page_info["texts"] = coalesce_lines(page_info["texts"])
+        pages_data.append(page_info)
+
+    doc.close()
+    return pages_data
+
+
 def extract_pdf(filepath: str) -> list[dict]:
-    """Extract content from a text-based PDF file."""
+    """Extract content from a text-based PDF file.
+
+    Uses pdfplumber (primary) with PyMuPDF fallback for CID-encoded CJK PDFs.
+    """
     try:
         import pdfplumber
     except ImportError:
@@ -177,6 +252,8 @@ def extract_pdf(filepath: str) -> list[dict]:
         sys.exit(1)
 
     pages_data = []
+    garbled_detected = False
+
     with pdfplumber.open(filepath) as pdf:
         for idx, page in enumerate(pdf.pages, 1):
             page_info = {
@@ -194,7 +271,7 @@ def extract_pdf(filepath: str) -> list[dict]:
                 if not line:
                     continue
                 # Heuristic: short all-caps / large font-like lines → heading
-                is_heading = (
+                is_heading = bool(
                     (line.isupper() and len(line) > 3 and len(line) < 80)
                     or re.match(r'^第[一二三四五六七八九十\d]+[章节部]', line)
                     or re.match(r'^(Chapter|Section|Part)\s+\d', line, re.I)
@@ -206,6 +283,10 @@ def extract_pdf(filepath: str) -> list[dict]:
                     "bold": is_heading,
                 })
 
+            # Check for garbled content
+            if not garbled_detected and is_garbled(raw_text):
+                garbled_detected = True
+
             # Extract tables
             raw_tables = page.extract_tables()
             if raw_tables:
@@ -213,7 +294,6 @@ def extract_pdf(filepath: str) -> list[dict]:
                     clean_table = []
                     for row in table:
                         clean_row = [clean_text(c) if c else "" for c in row]
-                        # Skip completely empty rows
                         if any(cell for cell in clean_row):
                             clean_table.append(clean_row)
                     if clean_table:
@@ -221,6 +301,13 @@ def extract_pdf(filepath: str) -> list[dict]:
 
             page_info["texts"] = coalesce_lines(page_info["texts"])
             pages_data.append(page_info)
+
+    # If garbled content detected, fall back to PyMuPDF
+    if garbled_detected:
+        print("  [WARN] pdfplumber produced garbled text; retrying with PyMuPDF...", file=sys.stderr)
+        fallback = extract_pdf_pymupdf(filepath)
+        if fallback:
+            return fallback
 
     return pages_data
 
@@ -286,6 +373,7 @@ def extract_ocr(filepath: str) -> list[dict]:
 
 def to_markdown(slides_data: list[dict], include_notes: bool = True) -> str:
     """Convert extracted slide data to structured Markdown."""
+    empty_count = sum(1 for s in slides_data if not s["texts"] and not s["tables"])
     lines = []
     for slide in slides_data:
         lines.append(f"## Slide {slide['slide_number']}")
@@ -298,7 +386,9 @@ def to_markdown(slides_data: list[dict], include_notes: bool = True) -> str:
 
         for item in slide["texts"]:
             prefix = "#" * min(item["level"] + 2, 6)  # start at ## for slide-level
-            text = item["text"]
+            text = clean_cid(item["text"])  # clean (cid:xxx) artifacts
+            if not text:
+                continue
             if item["bold"] and item["level"] <= 1:
                 lines.append(f"{prefix} **{text}**")
             elif item["level"] >= 2:
@@ -394,6 +484,13 @@ def main():
     else:
         print(f"Error: Unsupported format '{ext}'. Supported: .pptx, .pdf, .png, .jpg", file=sys.stderr)
         sys.exit(1)
+
+    # Check for empty results (possible scan/image-only PDF)
+    if not args.ocr and slides_data:
+        empty_slides = sum(1 for s in slides_data if not s["texts"] and not s["tables"])
+        if empty_slides == len(slides_data):
+            print("  [HINT] All slides appear empty. This file may be image-based/scanned.", file=sys.stderr)
+            print("  [HINT] Try: pip install pytesseract pdf2image Pillow && extract_ppt.py --ocr", file=sys.stderr)
 
     if not args.quiet:
         print_summary(slides_data)
